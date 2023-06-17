@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.7.0/css/flag-icons.min.css">
     <style>
         /* Internal CSS styles for the register form */
         body {
@@ -46,7 +47,7 @@
         }
 
         p {
-            color:;
+            color: ;
         }
 
         .success-message {
@@ -87,6 +88,21 @@
         .password-strength .strong {
             background-color: green;
         }
+
+        /* Flag select styles */
+        .flag-select select {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .flag-icon {
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -109,16 +125,23 @@
         <br><br>
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
-        <input type="tel" name="phone" placeholder="Enter Phone Number" required>
+        <div class="flag-select">
+            <select name="country_code" required>
+                <option value="" selected disabled>Select Country</option>
+                <option value="+1" data-countryCode="US" data-content="<span class='flag-icon flag-icon-us'></span> United States"></option>
+                <option value="+44" data-countryCode="GB" data-content="<span class='flag-icon flag-icon-gb'></span> United Kingdom"></option>
+                <option value="+91" data-countryCode="IN" data-content="<span class='flag-icon flag-icon-in'></span> India"></option>
+
+                <!-- Add more countries and their respective options here -->
+            </select>
+        </div>
+        <input type="text" name="phone_number" placeholder="Enter Phone Number" required>
         <br><br>
         <span class="password-strength">
             <span id="password-strength-indicator"></span>
         </span>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
-
-        <br>
-
-        <br>
+        <br><br>
         <input type="password" name="password_confirmation" placeholder="Enter Confirm Password" required>
         <br><br>
         <input type="submit" value="Register">
@@ -154,4 +177,4 @@
         passwordInput.addEventListener('input', updatePasswordStrength);
     </script>
 </body>
-
+</html>
