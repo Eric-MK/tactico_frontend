@@ -22,6 +22,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'string|required|min:2',
             'email' => 'string|email|required|max:100|unique:users',
+            'phone' => 'required|unique:users|phone_number', // Apply phone validation rule
             'password' =>'string|required|confirmed|min:6'
         ]);
 
