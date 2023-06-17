@@ -43,11 +43,24 @@
         }
 
         p {
-            color: red;
+            color:;
         }
 
         .success-message {
             color: green;
+        }
+
+        .login-link {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .login-link a {
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: ;
         }
     </style>
 </head>
@@ -79,5 +92,9 @@
         <br><br>
         <input type="submit" value="Register">
     </form>
+
+    <div class="login-link">
+        <p>Already a member? <a href="{{ route('userLogin') }}">Login</a></p>
+    </div>
 </body>
 </html>
