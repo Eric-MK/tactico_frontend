@@ -1,26 +1,27 @@
 <h1>Register</h1>
 
-    @if($errors->any())
-        @foreach($errors->all() as $error)
+@if($errors->any())
+    @foreach($errors->all() as $error)
         <p style="color:red;">{{ $error }}</p>
-        @endforeach
-    @endif
+    @endforeach
+@endif
 
-    <form action="{{ route('studentRegister') }}" method="POST">
-        @csrf
+<form action="{{ route('studentRegister') }}" method="POST">
+    @csrf
 
-        <input type="text" name="name" placeholder="Enter Name">
-        <br><br>
-        <input type="email" name="email" placeholder="Enter Email">
-        <br><br>
-        <input type="password" name="password" placeholder="Enter Password">
-        <br><br>
-        <input type="password" name="password_confirmation" placeholder="Enter Confirm Password">
-        <br><br>
-        <input type="submit" value="Register">
+    <input type="text" name="name" placeholder="Enter Name" required>
+    <br><br>
+    <input type="email" name="email" placeholder="Enter Email" required>
+    <br><br>
+    <input type="tel" name="phone" placeholder="Enter Phone Number" required>
+    <br><br>
+    <input type="password" name="password" placeholder="Enter Password" required>
+    <br><br>
+    <input type="password" name="password_confirmation" placeholder="Enter Confirm Password" required>
+    <br><br>
+    <input type="submit" value="Register">
+</form>
 
-    </form>
-
-    @if(Session::has('success'))
-        <p style="color:green;">{{ Session::get('success') }}</p>
-    @endif
+@if(Session::has('success'))
+    <p style="color:green;">{{ Session::get('success') }}</p>
+@endif
