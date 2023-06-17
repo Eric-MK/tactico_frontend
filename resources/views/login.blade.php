@@ -1,8 +1,46 @@
-<h1>Login</h1>
+<style>
+    /* Internal CSS styles for the login form and container */
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        text-align: center;
+    }
+
+    .login-container h1 {
+        margin-bottom: 20px;
+    }
+
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .login-container input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="login-container">
+    <h1>Login</h1>
 
     @if($errors->any())
         @foreach($errors->all() as $error)
-        <p style="color:red;">{{ $error }}</p>
+            <p style="color:red;">{{ $error }}</p>
         @endforeach
     @endif
 
@@ -18,5 +56,5 @@
         <input type="password" name="password" placeholder="Enter Password">
         <br><br>
         <input type="submit" value="Login">
-
     </form>
+</div>
