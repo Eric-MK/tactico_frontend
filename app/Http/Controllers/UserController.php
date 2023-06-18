@@ -17,6 +17,14 @@ class UserController extends Controller
         return view('register');
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        Session::flush();
+        return redirect('/login');
+    }
+
+
     public function studentRegister(Request $request)
     {
         $request->validate([
@@ -94,6 +102,7 @@ class UserController extends Controller
         }
         return redirect('/');
     }
+
 
     public function verification($id)
     {

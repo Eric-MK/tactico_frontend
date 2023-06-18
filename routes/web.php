@@ -13,18 +13,19 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/register',[UserController::class,'loadRegister']);
-Route::post('/register',[UserController::class,'studentRegister'])->name('studentRegister');
-Route::get('/login',function(){
+Route::get('/register', [UserController::class, 'loadRegister']);
+Route::post('/register', [UserController::class, 'studentRegister'])->name('studentRegister');
+Route::get('/login', function () {
     return redirect('/');
 });
-Route::get('/',[UserController::class,'loadLogin']);
+Route::get('/', [UserController::class, 'loadLogin']);
 
-Route::post('/login',[UserController::class,'userLogin'])->name('userLogin');
+Route::post('/login', [UserController::class, 'userLogin'])->name('userLogin');
 
-Route::get('/verification/{id}',[UserController::class,'verification']);
-Route::post('/verified',[UserController::class,'verifiedOtp'])->name('verifiedOtp');
-Route::get('/dashboard',[UserController::class,'loadDashboard']);
+Route::get('/verification/{id}', [UserController::class, 'verification']);
+Route::post('/verified', [UserController::class, 'verifiedOtp'])->name('verifiedOtp');
+Route::get('/dashboard', [UserController::class, 'loadDashboard']);
 
-Route::get('/resend-otp',[UserController::class,'resendOtp'])->name('resendOtp');
+Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resendOtp');
+
+Route::get('logout', [UserController::class, 'logout'])->name('logout');
