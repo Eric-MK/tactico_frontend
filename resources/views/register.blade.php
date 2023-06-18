@@ -111,7 +111,7 @@
 
     @if($errors->any())
         @foreach($errors->all() as $error)
-            <p>{{ $error }}</p>
+        <p style="color: red;">{{ $error }}</p>
         @endforeach
     @endif
 
@@ -132,11 +132,7 @@
             <option value="+30" data-content="<span class='fi fi-gr'></span> Greece" class="flag-icon">Greece</option>
             <!-- Add more countries and their respective options here -->
         </select>
-
-
-
-
-        <input type="text" name="phone_number" placeholder="Enter Phone Number" required>
+        <input type="text" name="phone" placeholder="Enter Phone Number" required>
         <br><span class="fi fi-us"></span> <span class="fi fi-gr"></span><br>
         <span class="password-strength">
             <span id="password-strength-indicator"></span>
