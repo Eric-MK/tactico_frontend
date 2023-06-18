@@ -2,7 +2,10 @@
 <html>
 <head>
     <title>Register</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.7.0/css/flag-icons.min.css">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
+/>
     <style>
         /* Internal CSS styles for the register form */
         body {
@@ -98,10 +101,8 @@
             margin-bottom: 10px;
         }
 
-        .flag-icon {
+        .flag-select .flag-icon {
             margin-right: 5px;
-            width: 20px;
-            height: 20px;
         }
     </style>
 </head>
@@ -125,18 +126,18 @@
         <br><br>
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
-        <div class="flag-select">
-            <select name="country_code" required>
-                <option value="" selected disabled>Select Country</option>
-                <option value="+1" data-countryCode="US" data-content="<span class='flag-icon flag-icon-us'></span> United States"></option>
-                <option value="+44" data-countryCode="GB" data-content="<span class='flag-icon flag-icon-gb'></span> United Kingdom"></option>
-                <option value="+91" data-countryCode="IN" data-content="<span class='flag-icon flag-icon-in'></span> India"></option>
+        <select name="country_code" required>
+            <option value="" selected disabled>Select Country</option>
+            <option value="+1" data-content="<span class='fi fi-us'></span> United States" class="flag-icon">United States</option>
+            <option value="+30" data-content="<span class='fi fi-gr'></span> Greece" class="flag-icon">Greece</option>
+            <!-- Add more countries and their respective options here -->
+        </select>
 
-                <!-- Add more countries and their respective options here -->
-            </select>
-        </div>
+
+
+
         <input type="text" name="phone_number" placeholder="Enter Phone Number" required>
-        <br><br>
+        <br><span class="fi fi-us"></span> <span class="fi fi-gr"></span><br>
         <span class="password-strength">
             <span id="password-strength-indicator"></span>
         </span>
