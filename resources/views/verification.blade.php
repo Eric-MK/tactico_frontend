@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,57 +58,6 @@
             font-size: 18px;
             margin-bottom: 10px;
         }
-
-        /* Popup styles */
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .popup-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .popup-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 18px;
-            color: #888;
-            cursor: pointer;
-        }
-
-        .popup-success {
-            color: green;
-            font-weight: bold;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .popup-message {
-            margin-bottom: 20px;
-        }
-
-        /* Success message styles */
-        #successMessage {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -119,104 +69,110 @@
         <input type="number" name="otp" placeholder="Enter OTP" required>
         <br><br>
         <input type="submit" value="Verify">
+
     </form>
 
     <p class="time"></p>
 
-    <div id="confirmationPopup" class="popup" style="display: none;">
-        <div class="popup-content">
-            <span id="popupClose" class="popup-close">&times;</span>
-            <div class="popup-success">Email Verified</div>
-            <div class="popup-message">Your email has been successfully verified.</div>
-            <button id="popupConfirm" class="popup-close">OK</button>
-        </div>
-    </div>
-
     <button id="resendOtpVerification">Resend Verification OTP</button>
 
-    <div id="successMessage"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            $('#verificationForm').submit(function(e){
-                e.preventDefault();
-                showConfirmationPopup();
-            });
+<script>
 
-            // Close the popup when clicking the close button
-            $('#popupClose').click(function() {
-                hideConfirmationPopup();
-            });
+    $(document).ready(function(){
+        $('#verificationForm').submit(function(e){
+            e.preventDefault();
 
-            // Submit the form when clicking "OK" in the popup
-            $('#popupConfirm').click(function() {
-                submitForm();
-            });
-        });
-
-        function showConfirmationPopup() {
-            $('#confirmationPopup').fadeIn();
-        }
-
-        function hideConfirmationPopup() {
-            $('#confirmationPopup').fadeOut();
-        }
-
-        function submitForm() {
-            var formData = $('#verificationForm').serialize();
+            var formData = $(this).serialize();
 
             $.ajax({
-                url: "{{ route('verifiedOtp') }}",
-                type: "POST",
+                url:"{{ route('verifiedOtp') }}",
+                type:"POST",
                 data: formData,
-                success: function(res) {
+                success:function(res){
                     if(res.success){
-                        $('#message_success').text(res.msg);
-                        setTimeout(function() {
-                            $('#message_success').text('');
-                        }, 3000);
-                        window.open("/", "_self");
+                        alert(res.msg);
+                        window.open("/","_self");
                     }
                     else{
                         $('#message_error').text(res.msg);
-                        setTimeout(function() {
+                        setTimeout(() => {
                             $('#message_error').text('');
                         }, 3000);
                     }
                 }
             });
 
-            hideConfirmationPopup();
-        }
+        });
 
-        function timer() {
-            var seconds = 30;
-            var minutes = 1;
+        $('#resendOtpVerification').click(function(){
+            $(this).text('Wait...');
+            var userMail = @json($email);
 
-            var timer = setInterval(function() {
-                if(minutes < 0){
-                    $('.time').text('');
-                    clearInterval(timer);
+            $.ajax({
+                url:"{{ route('resendOtp') }}",
+                type:"GET",
+                data: {email:userMail },
+                success:function(res){
+                    $('#resendOtpVerification').text('Resend Verification OTP');
+                    if(res.success){
+                        timer();
+                        $('#message_success').text(res.msg);
+                        setTimeout(() => {
+                            $('#message_success').text('');
+                        }, 3000);
+                    }
+                    else{
+                        $('#message_error').text(res.msg);
+                        setTimeout(() => {
+                            $('#message_error').text('');
+                        }, 3000);
+                    }
                 }
-                else{
-                    let tempMinutes = minutes.toString().length > 1? minutes:'0'+minutes;
-                    let tempSeconds = seconds.toString().length > 1? seconds:'0'+seconds;
+            });
 
-                    $('.time').text(tempMinutes+':'+tempSeconds);
-                }
+        });
+    });
 
-                if(seconds <= 0){
-                    minutes--;
-                    seconds = 59;
-                }
+    function timer()
+    {
+        var seconds = 30;
+        var minutes = 1;
 
-                seconds--;
-            }, 1000);
-        }
+        var timer = setInterval(() => {
 
-        timer();
-    </script>
+            if(minutes < 0){
+                $('.time').text('');
+                clearInterval(timer);
+            }
+            else{
+                let tempMinutes = minutes.toString().length > 1? minutes:'0'+minutes;
+                let tempSeconds = seconds.toString().length > 1? seconds:'0'+seconds;
+
+                $('.time').text(tempMinutes+':'+tempSeconds);
+            }
+
+            if(seconds <= 0){
+                minutes--;
+                seconds = 59;
+            }
+
+            seconds--;
+
+        }, 1000);
+    }
+
+    timer();
+
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
