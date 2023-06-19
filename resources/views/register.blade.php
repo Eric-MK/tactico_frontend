@@ -128,7 +128,7 @@ input[type="password"].strong-password {
         <br><span class="fi fi-us"></span> <span class="fi fi-gr"></span><br>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
         <br><br>
-        <input type="password" name="password_confirmation" placeholder="Enter Confirm Password" required>
+        <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>
         <br><br>
         <input type="submit" value="Register">
     </form>
@@ -138,23 +138,35 @@ input[type="password"].strong-password {
     </div>
 
     <script>
-        // Function to update password input indicator
-        function updatePasswordStrength() {
-            const passwordInput = document.getElementById('password');
-            const password = passwordInput.value;
-            const passwordLength = password.length;
+     // Function to update password input indicator
+function updatePasswordStrength() {
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+    const passwordLength = password.length;
 
-            // Check password length and set appropriate class for the input box
-            if (passwordLength === 0 || passwordLength <= 5) {
-                passwordInput.className = 'weak-password';
-            } else {
-                passwordInput.className = 'strong-password';
-            }
-        }
+    // Check password length and set appropriate class for the password input box
+    if (passwordLength === 0 || passwordLength <= 5) {
+        passwordInput.className = 'weak-password';
+    } else {
+        passwordInput.className = 'strong-password';
+    }
 
-        // Event listener for password input
-        const passwordInput = document.getElementById('password');
-        passwordInput.addEventListener('input', updatePasswordStrength);
+    // Check if the passwords match and set appropriate class for the confirm password input box
+    if (password === confirmPassword && confirmPassword !== '') {
+        confirmPasswordInput.className = 'strong-password';
+    } else {
+        confirmPasswordInput.className = 'weak-password';
+    }
+}
+
+// Event listener for password and confirm password inputs
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+passwordInput.addEventListener('input', updatePasswordStrength);
+confirmPasswordInput.addEventListener('input', updatePasswordStrength);
+
     </script>
 </body>
 </html>
