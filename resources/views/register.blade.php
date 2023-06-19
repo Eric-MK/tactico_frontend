@@ -3,9 +3,9 @@
 <head>
     <title>Register</title>
     <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
-/>
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
+    />
     <style>
         /* Internal CSS styles for the register form */
         body {
@@ -28,7 +28,7 @@
         input[type="text"],
         input[type="email"],
         input[type="tel"],
-        input[type="password"] {
+        input[type="password"]{
             width: 300px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,28 +70,6 @@
             text-decoration: ;
         }
 
-        /* Password strength indicator styles */
-        .password-strength {
-            text-align: left;
-            margin-bottom: 10px;
-        }
-
-        .password-strength span {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            margin-right: 5px;
-            border-radius: 50%;
-        }
-
-        .password-strength .weak {
-            background-color: red;
-        }
-
-        .password-strength .strong {
-            background-color: green;
-        }
-
         /* Flag select styles */
         .flag-select select {
             width: 300px;
@@ -104,6 +82,20 @@
         .flag-select .flag-icon {
             margin-right: 5px;
         }
+
+        input[type="password"]:focus {
+    outline: none;
+}
+
+        /* Password input indicator styles */
+       /* Password input indicator styles */
+input[type="password"].weak-password {
+    border-color: red !important;
+}
+
+input[type="password"].strong-password {
+    border-color: green !important;
+}
     </style>
 </head>
 <body>
@@ -134,9 +126,6 @@
         </select>
         <input type="text" name="phone" placeholder="Enter Phone Number" required>
         <br><span class="fi fi-us"></span> <span class="fi fi-gr"></span><br>
-        <span class="password-strength">
-            <span id="password-strength-indicator"></span>
-        </span>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
         <br><br>
         <input type="password" name="password_confirmation" placeholder="Enter Confirm Password" required>
@@ -149,23 +138,17 @@
     </div>
 
     <script>
-        // Function to update password strength indicator
+        // Function to update password input indicator
         function updatePasswordStrength() {
             const passwordInput = document.getElementById('password');
-            const passwordIndicator = document.getElementById('password-strength-indicator');
+            const password = passwordInput.value;
+            const passwordLength = password.length;
 
-            // Password strength criteria
-            const passwordCriteria = {
-                weak: /^.{0,5}$/, // Less than 6 characters
-                strong: /^.{6,}$/ // 6 or more characters
-            };
-
-            // Check password against each strength criteria
-            for (const strength in passwordCriteria) {
-                if (passwordCriteria[strength].test(passwordInput.value)) {
-                    passwordIndicator.style.backgroundColor = strength === 'strong' ? 'green' : 'red';
-                    return;
-                }
+            // Check password length and set appropriate class for the input box
+            if (passwordLength === 0 || passwordLength <= 5) {
+                passwordInput.className = 'weak-password';
+            } else {
+                passwordInput.className = 'strong-password';
             }
         }
 
