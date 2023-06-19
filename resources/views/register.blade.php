@@ -96,6 +96,52 @@ input[type="password"].weak-password {
 input[type="password"].strong-password {
     border-color: green !important;
 }
+
+/* Popup styles */
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cancel-button {
+    background-color: #aaa;
+    color: #fff;
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirm-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -111,7 +157,7 @@ input[type="password"].strong-password {
         <p class="success-message">{{ Session::get('success') }}</p>
     @endif
 
-    <form action="{{ route('studentRegister') }}" method="POST">
+    <form id="registerForm" action="{{ route('studentRegister') }}" method="POST">
         @csrf
 
         <input type="text" name="name" placeholder="Enter Name" required>
@@ -135,6 +181,17 @@ input[type="password"].strong-password {
 
     <div class="login-link">
         <p>Already a member? <a href="{{ route('userLogin') }}">Login</a></p>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmationPopup" class="popup-container">
+        <div class="popup-content">
+            <p>Are you sure you want to submit the details?</p>
+            <div class="popup-buttons">
+                <button id="cancelButton" class="cancel-button">Cancel</button>
+                <button id="confirmButton" class="confirm-button">OK</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -166,6 +223,36 @@ const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirmPassword');
 passwordInput.addEventListener('input', updatePasswordStrength);
 confirmPasswordInput.addEventListener('input', updatePasswordStrength);
+
+// Function to show confirmation popup
+function showConfirmationPopup(event) {
+    event.preventDefault();
+
+    const confirmationPopup = document.getElementById('confirmationPopup');
+    confirmationPopup.style.display = 'flex';
+
+    const cancelButton = document.getElementById('cancelButton');
+    cancelButton.addEventListener('click', hideConfirmationPopup);
+
+    const confirmButton = document.getElementById('confirmButton');
+    confirmButton.addEventListener('click', submitForm);
+}
+
+// Function to hide confirmation popup
+function hideConfirmationPopup() {
+    const confirmationPopup = document.getElementById('confirmationPopup');
+    confirmationPopup.style.display = 'none';
+}
+
+// Function to submit the form
+function submitForm() {
+    const form = document.getElementById('registerForm');
+    form.submit();
+}
+
+// Event listener for form submission
+const form = document.getElementById('registerForm');
+form.addEventListener('submit', showConfirmationPopup);
 
     </script>
 </body>
