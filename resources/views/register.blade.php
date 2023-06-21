@@ -164,14 +164,14 @@ input[type="password"].strong-password {
         <br><br>
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
-        {{-- <select name="country_code" required>
-            <option value="" selected disabled>Select Country</option>
-            <option value="+1" data-content="<span class='fi fi-us'></span> United States" class="flag-icon">United States</option>
-            <option value="+30" data-content="<span class='fi fi-gr'></span> Greece" class="flag-icon">Greece</option>
+        <select name="country_code" id="country_code" required>
+            <option value="" selected disabled>Select Country Code</option>
+            <option value="+1">US (+1)</option>
+            <option value="+30">GR (+30)</option>
             <!-- Add more countries and their respective options here -->
-        </select> --}}
+        </select>
         <input type="text" name="phone" placeholder="Enter Phone Number" required>
-        <br><span class="fi fi-us"></span> <span class="fi fi-gr"></span><br>
+        <br>{{-- <span class="fi fi-us"></span> <span class="fi fi-gr"></span> --}}<br>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
         <br><br>
         <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>

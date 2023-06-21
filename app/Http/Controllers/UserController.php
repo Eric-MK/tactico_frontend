@@ -30,14 +30,21 @@ class UserController extends Controller
         $request->validate([
             'name' => 'string|required|min:2',
             'email' => 'string|email|required|max:100|unique:users',
-            'phone' => 'required|unique:users', // Apply phone validation rule
-            'password' =>'string|required|confirmed|min:6'
+            'phone' => 'required|string|unique:users',
+            'password' =>'string|required|confirmed|min:6',
+            'country_code' => 'required'
+
         ]);
+
+        $phoneNumber = $request->country_code . $request->phone;
+
 
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone;
+
+         // Append the country code to the phone number
+    $user->phone = $request->country_code . $request->phone;
         $user->password = Hash::make($request->password);
         $user->save();
 
