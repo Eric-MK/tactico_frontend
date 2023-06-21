@@ -30,15 +30,17 @@ class UserController extends Controller
         $request->validate([
             'name' => 'string|required|min:2',
             'email' => 'string|email|required|max:100|unique:users',
-            'phone' => 'required|string|unique:users',
             'password' =>'string|required|confirmed|min:6',
-            'country_code' => 'required'
-
+            'country_code' => 'required',
         ]);
 
         $phoneNumber = $request->country_code . $request->phone;
 
+        $phoneExists = User::where('phone', $phoneNumber)->exists();
 
+        if ($phoneExists) {
+            return back()->withErrors(['phone' => 'The phone number already exists.']);
+        }
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;

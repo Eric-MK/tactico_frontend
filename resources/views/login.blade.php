@@ -10,10 +10,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #f0f0f0;
         }
 
         .login-container {
             text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
         }
 
         .login-container h1 {
@@ -27,6 +32,14 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-bottom: 10px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.05);
+        }
+
+        .login-container input[type="email"]:focus,
+        .login-container input[type="password"]:focus {
+            border: 1px solid #4CAF50;
+            box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.2);
         }
 
         .login-container input[type="submit"] {
@@ -36,7 +49,9 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
         }
+
         .login-container a {
             text-decoration: none; /* Remove underline */
         }

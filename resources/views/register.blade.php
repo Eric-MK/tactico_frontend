@@ -46,8 +46,7 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
-        input[type="tel"]:focus,
-        input[type="password"]:focus,
+        input[type="tel"]:focus
         select:focus {
             border: 1px solid #4CAF50;
             box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.2);
@@ -161,28 +160,27 @@ input[type="password"].strong-password {
     cursor: pointer;
 }
 .phone-input {
-            position: relative;
-            display: flex; /* Use flex layout */
-            width: 300px;
-            margin-bottom: 10px;
+        position: relative;
+        display: flex; /* Use flex layout */
+        width: 300px;
+        margin-bottom: 10px;
+    }
 
-        }
+    .phone-input input[type="text"] {
+        width: calc(100% - 100px); /* Reduce width based on the size of the dropdown */
+        padding-left: 100px; /* Add padding to the left */
+    }
 
-        .phone-input input[type="text"] {
-            width: calc(100% - 80px); /* Reduce width based on the size of the dropdown */
-            padding-left: 80px; /* Add padding to the left */
-        }
-
-        .phone-input .country-code-dropdown {
-            position: absolute;
-            left: 0;
-            border: none;
-            border-radius: 0;
-            height: 100%;
-            background: transparent;
-            width: 82px; /* Adjust based on your preference */
-            z-index: 1; /* Ensure the dropdown is on top */
-        }
+    .phone-input .country-code-dropdown {
+        position: absolute;
+        left: 0;
+        border: none;
+        border-radius: 0;
+        height: 100%;
+        background: transparent;
+        width: 100px; /* Adjust based on your preference */
+        z-index: 1; /* Ensure the dropdown is on top */
+    }
     </style>
 </head>
 <body>
@@ -211,7 +209,7 @@ input[type="password"].strong-password {
             <option value="" selected disabled>Country Code</option>
             <option value="+1">US (+1)</option>
             <option value="+30">GR (+30)</option>
-            <option value="+254">KE (+254)</option> <!-- Kenya -->
+            <option value="+254">KE(+254)</option> <!-- Kenya -->
             <option value="+44">GB (+44)</option> <!-- Britain -->
             <option value="+1">CA (+1)</option> <!-- Canada -->
             <option value="+27">ZA (+27)</option> <!-- South Africa -->
