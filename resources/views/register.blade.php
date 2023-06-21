@@ -14,6 +14,7 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            background-color: #f0f0f0;
         }
 
         h1 {
@@ -23,17 +24,33 @@
 
         form {
             text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
         }
 
         input[type="text"],
         input[type="email"],
         input[type="tel"],
-        input[type="password"]{
+        input[type="password"],
+        select {
             width: 300px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-bottom: 10px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.05);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border: 1px solid #4CAF50;
+            box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.2);
         }
 
         input[type="submit"] {
@@ -43,6 +60,7 @@
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
         }
 
         input[type="submit"]:hover {
