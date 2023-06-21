@@ -142,6 +142,28 @@ input[type="password"].strong-password {
     border-radius: 4px;
     cursor: pointer;
 }
+.phone-input {
+            position: relative;
+            display: flex; /* Use flex layout */
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .phone-input input[type="text"] {
+            width: calc(100% - 80px); /* Reduce width based on the size of the dropdown */
+            padding-left: 80px; /* Add padding to the left */
+        }
+
+        .phone-input .country-code-dropdown {
+            position: absolute;
+            left: 0;
+            border: none;
+            border-radius: 0;
+            height: 100%;
+            background: transparent;
+            width: 80px; /* Adjust based on your preference */
+            z-index: 1; /* Ensure the dropdown is on top */
+        }
     </style>
 </head>
 <body>
@@ -164,14 +186,16 @@ input[type="password"].strong-password {
         <br><br>
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
-        <select name="country_code" id="country_code" required>
-            <option value="" selected disabled>Select Country Code</option>
+        <div class="phone-input">
+          <input type="text" name="phone" placeholder="Enter Phone Number" required>
+          <select name="country_code" id="country_code" class="country-code-dropdown" required>
+            <option value="" selected disabled>Country Code</option>
             <option value="+1">US (+1)</option>
             <option value="+30">GR (+30)</option>
             <!-- Add more countries and their respective options here -->
-        </select>
-        <input type="text" name="phone" placeholder="Enter Phone Number" required>
-        <br>{{-- <span class="fi fi-us"></span> <span class="fi fi-gr"></span> --}}<br>
+          </select>
+        </div>
+        <br><br>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
         <br><br>
         <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>
