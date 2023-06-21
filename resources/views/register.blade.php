@@ -90,11 +90,11 @@
         /* Password input indicator styles */
        /* Password input indicator styles */
 input[type="password"].weak-password {
-    border-color: red !important;
+    border: 1px solid red;
 }
 
 input[type="password"].strong-password {
-    border-color: green !important;
+    border: 2px solid green;
 }
 
 /* Popup styles */
@@ -125,8 +125,8 @@ input[type="password"].strong-password {
 }
 
 .cancel-button {
-    background-color: #aaa;
-    color: #fff;
+    background-color: #e73636;
+    color: white;
     padding: 8px 16px;
     margin-right: 10px;
     border: none;
@@ -147,6 +147,7 @@ input[type="password"].strong-password {
             display: flex; /* Use flex layout */
             width: 300px;
             margin-bottom: 10px;
+
         }
 
         .phone-input input[type="text"] {
@@ -161,7 +162,7 @@ input[type="password"].strong-password {
             border-radius: 0;
             height: 100%;
             background: transparent;
-            width: 80px; /* Adjust based on your preference */
+            width: 82px; /* Adjust based on your preference */
             z-index: 1; /* Ensure the dropdown is on top */
         }
     </style>
@@ -192,10 +193,14 @@ input[type="password"].strong-password {
             <option value="" selected disabled>Country Code</option>
             <option value="+1">US (+1)</option>
             <option value="+30">GR (+30)</option>
-            <!-- Add more countries and their respective options here -->
-          </select>
+            <option value="+254">KE (+254)</option> <!-- Kenya -->
+            <option value="+44">GB (+44)</option> <!-- Britain -->
+            <option value="+1">CA (+1)</option> <!-- Canada -->
+            <option value="+27">ZA (+27)</option> <!-- South Africa -->
+            <option value="+966">SA (+966)</option> <!-- Saudi Arabia -->
+        </select>
         </div>
-        <br><br>
+        <br>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
         <br><br>
         <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>
