@@ -82,6 +82,11 @@
     </form>
 
     <p>Not a member? <a href="{{ route('studentRegister') }}">Register</a></p>
+
+
+
+
+    <p><a href="{{ route('forgotPassword') }}">Forgot Password?</a></p>
 </div>
 </body>
 </html>

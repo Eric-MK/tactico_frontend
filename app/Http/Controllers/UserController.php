@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\EmailVerification;
@@ -19,6 +24,55 @@ class UserController extends Controller
         return view('register');
     }
 
+    public function showResetForm($token)
+    {
+        return view('reset_password_form', ['token' => $token]);
+    }
+
+
+    public function resetPassword(Request $request)
+    {
+
+
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $resetPassword = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$resetPassword) {
+            return back()->with('error', 'Invalid token or email.');
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Email not found.');
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Delete the password reset record
+        DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->token)
+            ->delete();
+
+        return redirect()->route('login')->with('success', 'Password reset successful. You can now log in with your new password.');
+    }
+
+
+
     public function logout()
     {
         Auth::logout();
@@ -32,7 +86,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'string|required|min:2',
             'email' => 'string|email|required|max:100|unique:users',
-            'password' =>'string|required|confirmed|min:6',
+            'password' => 'string|required|confirmed|min:6',
             'country_code' => 'required',
             'phone' => 'required',
         ]);
@@ -79,7 +133,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect("/verification/".$user->id);
+        return redirect("/verification/" . $user->id);
     }
 
     public function loadLogin()
@@ -124,7 +178,7 @@ class UserController extends Controller
         $userCredential = $request->only('email', 'password');
         $userData = User::where('email', $request->email)->first();
         if ($userData && $userData->is_verified == 0) {
-            $this->sendOtp($userData, $request->email);
+            //$this->sendOtp($userData, $request->email);
             return redirect("/verification/" . $userData->id);
         } elseif (Auth::attempt($userCredential)) {
             return redirect('/dashboard');
@@ -140,6 +194,11 @@ class UserController extends Controller
         }
         return redirect('/');
     }
+    public function forgotPassword()
+    {
+        return view('forgot_password');
+    }
+
 
 
     public function verification($id)
@@ -161,37 +220,60 @@ class UserController extends Controller
         $otpData = EmailVerification::where('otp', $request->otp)->first();
         if (!$otpData) {
             return response()->json(['success' => false, 'msg' => 'You entered the wrong OTP']);
-        }
-        else {
-                $currentTime = time();
-                $time = $otpData->created_at;
-
-                if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { // 90 seconds
-                    User::where('id', $user->id)->update([
-                        'is_verified' => 1
-                    ]);
-                    return response()->json(['success' => true, 'msg' => 'Mail has been verified']);
-                } else {
-                    return response()->json(['success' => false, 'msg' => 'Your OTP has expired']);
-                }
-            }
-        }
-
-        public function resendOtp(Request $request)
-        {
-            $user = User::where('email', $request->email)->first();
-            $otpData = EmailVerification::where('email', $request->email)->first();
-
+        } else {
             $currentTime = time();
             $time = $otpData->created_at;
 
             if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { // 90 seconds
-                return response()->json(['success' => false, 'msg' => 'Please try again after some time']);
+                User::where('id', $user->id)->update([
+                    'is_verified' => 1
+                ]);
+                return response()->json(['success' => true, 'msg' => 'Mail has been verified']);
             } else {
-                $this->sendOtp($user, $request->email); //OTP SEND
-                return response()->json(['success' => true, 'msg' => 'OTP has been sent']);
+                return response()->json(['success' => false, 'msg' => 'Your OTP has expired']);
             }
         }
     }
 
+    public function resendOtp(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $otpData = EmailVerification::where('email', $request->email)->first();
 
+        $currentTime = time();
+        $time = $otpData->created_at;
+
+        if ($currentTime >= $time && $time >= $currentTime - (90 + 5)) { // 90 seconds
+            return response()->json(['success' => false, 'msg' => 'Please try again after some time']);
+        } else {
+            $this->sendOtp($user, $request->email); //OTP SEND
+            return response()->json(['success' => true, 'msg' => 'OTP has been sent']);
+        }
+    }
+
+    public function sendResetLink(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Email not found.');
+        }
+
+        // Generate a unique token and save it in the `password_resets` table
+        $token = Str::random(60);
+        DB::table('password_resets')->insert([
+            'email' => $user->email,
+            'token' => $token,
+            'created_at' => now()
+        ]);
+
+        // Send the password reset link to the user's email
+        Mail::to($user->email)->send(new ResetPasswordMail($token));
+
+        return back()->with('success', 'Password reset link has been sent to your email.');
+    }
+}
