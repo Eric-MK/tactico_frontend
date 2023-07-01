@@ -69,6 +69,7 @@ class UserController extends Controller
             ->delete();
 
         return redirect()->route('login')->with('success', 'Password reset successful. You can now log in with your new password.');
+
     }
 
 
