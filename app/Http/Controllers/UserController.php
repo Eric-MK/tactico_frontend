@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
+use libphonenumber\PhoneNumberUtil;
+use libphonenumber\NumberParseException;
 
 class UserController extends Controller
 {
@@ -32,21 +34,48 @@ class UserController extends Controller
             'email' => 'string|email|required|max:100|unique:users',
             'password' =>'string|required|confirmed|min:6',
             'country_code' => 'required',
+            'phone' => 'required',
         ]);
 
+        // Country code mapping
+        $countryCodeMapping = [
+            '+1' => 'US',
+            '+30' => 'GR',
+            '+254' => 'KE',
+            '+44' => 'GB',
+            '+27' => 'ZA',
+            '+966' => 'SA',
+        ];
+
         $phoneNumber = $request->country_code . $request->phone;
+
+        // Retrieve the ISO country code
+        $isoCountryCode = $countryCodeMapping[$request->country_code] ?? null;
 
         $phoneExists = User::where('phone', $phoneNumber)->exists();
 
         if ($phoneExists) {
             return back()->withErrors(['phone' => 'The phone number already exists.']);
         }
+
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        try {
+            $numberProto = $phoneUtil->parse($phoneNumber, $isoCountryCode);
+            if (!$phoneUtil->isValidNumber($numberProto)) {
+                // If the number is not valid, return with an error message
+                return back()->withErrors(['phone' => 'Phone number is not valid.']);
+            }
+        } catch (NumberParseException $e) {
+            // If the number could not be parsed, return with an error message
+            return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+        }
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
 
-         // Append the country code to the phone number
-    $user->phone = $request->country_code . $request->phone;
+        // Append the country code to the phone number
+        $user->phone = $request->country_code . $request->phone;
         $user->password = Hash::make($request->password);
         $user->save();
 
