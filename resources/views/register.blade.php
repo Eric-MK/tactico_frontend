@@ -46,7 +46,7 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
-        input[type="tel"]:focus
+        input[type="tel"]:focus,
         select:focus {
             border: 1px solid #4CAF50;
             box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.2);
@@ -99,9 +99,11 @@
         .flag-select .flag-icon {
             margin-right: 5px;
         }
+
         input[type="password"]:focus {
-    outline: none;
-}
+            outline: none;
+        }
+
         /* Password input indicator styles */
         input[type="password"].weak-password {
             border: 1px solid red;
@@ -179,6 +181,15 @@
             width: 100px; /* Adjust based on your preference */
             z-index: 1; /* Ensure the dropdown is on top */
         }
+
+        .password-toggle {
+            display: flex;
+            align-items: center;
+        }
+
+        .password-toggle input[type="checkbox"] {
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -215,7 +226,13 @@
             </select>
         </div>
         <br>
-        <input type="password" name="password" id="password" placeholder="Enter Password" autocomplete="new-password" required>
+        <div class="password-toggle">
+            {{-- <label for="togglePassword">Show</label>
+            <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()"> --}}
+            <input type="password" name="password" id="password" placeholder="Enter Password" autocomplete="new-password" required>
+        </div>
+        <label for="togglePassword">Show</label>
+        <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()">
         <br><br>
         <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>
         <br><br>
@@ -278,6 +295,13 @@
             } else {
                 suggestionElement.textContent = '';
             }
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const togglePasswordCheckbox = document.getElementById('togglePassword');
+            passwordInput.type = togglePasswordCheckbox.checked ? 'text' : 'password';
         }
 
         // Event listener for password and confirm password inputs
