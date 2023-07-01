@@ -99,88 +99,86 @@
         .flag-select .flag-icon {
             margin-right: 5px;
         }
-
         input[type="password"]:focus {
     outline: none;
 }
-
         /* Password input indicator styles */
-       /* Password input indicator styles */
-input[type="password"].weak-password {
-    border: 1px solid red;
-}
+        input[type="password"].weak-password {
+            border: 1px solid red;
+        }
 
-input[type="password"].strong-password {
-    border: 2px solid green;
-}
+        input[type="password"].strong-password {
+            border: 2px solid green;
+        }
 
-/* Popup styles */
-.popup-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-}
+        /* Popup styles */
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
 
-.popup-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 4px;
-    text-align: center;
-}
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
 
-.popup-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+        .popup-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-.cancel-button {
-    background-color: #e73636;
-    color: white;
-    padding: 8px 16px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .cancel-button {
+            background-color: #e73636;
+            color: white;
+            padding: 8px 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.confirm-button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.phone-input {
-        position: relative;
-        display: flex; /* Use flex layout */
-        width: 300px;
-        margin-bottom: 10px;
-    }
+        .confirm-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    .phone-input input[type="text"] {
-        width: calc(100% - 100px); /* Reduce width based on the size of the dropdown */
-        padding-left: 100px; /* Add padding to the left */
-    }
+        .phone-input {
+            position: relative;
+            display: flex; /* Use flex layout */
+            width: 300px;
+            margin-bottom: 10px;
+        }
 
-    .phone-input .country-code-dropdown {
-        position: absolute;
-        left: 0;
-        border: none;
-        border-radius: 0;
-        height: 100%;
-        background: transparent;
-        width: 100px; /* Adjust based on your preference */
-        z-index: 1; /* Ensure the dropdown is on top */
-    }
+        .phone-input input[type="text"] {
+            width: calc(100% - 100px); /* Reduce width based on the size of the dropdown */
+            padding-left: 100px; /* Add padding to the left */
+        }
+
+        .phone-input .country-code-dropdown {
+            position: absolute;
+            left: 0;
+            border: none;
+            border-radius: 0;
+            height: 100%;
+            background: transparent;
+            width: 100px; /* Adjust based on your preference */
+            z-index: 1; /* Ensure the dropdown is on top */
+        }
     </style>
 </head>
 <body>
@@ -204,23 +202,24 @@ input[type="password"].strong-password {
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
         <div class="phone-input">
-          <input type="text" name="phone" placeholder="Enter Phone Number" required>
-          <select name="country_code" id="country_code" class="country-code-dropdown" required>
-            <option value="" selected disabled>Country Code</option>
-            <option value="+1">US (+1)</option>
-            <option value="+30">GR (+30)</option>
-            <option value="+254">KE (+254)</option> <!-- Kenya -->
-            <option value="+44">GB (+44)</option> <!-- Britain -->
-            <option value="+1">CA (+1)</option> <!-- Canada -->
-            <option value="+27">ZA (+27)</option> <!-- South Africa -->
-            <option value="+966">SA (+966)</option> <!-- Saudi Arabia -->
-        </select>
+            <input type="text" name="phone" placeholder="Enter Phone Number" required>
+            <select name="country_code" id="country_code" class="country-code-dropdown" required>
+                <option value="" selected disabled>Country Code</option>
+                <option value="+1">US (+1)</option>
+                <option value="+30">GR (+30)</option>
+                <option value="+254">KE (+254)</option> <!-- Kenya -->
+                <option value="+44">GB (+44)</option> <!-- Britain -->
+                <option value="+1">CA (+1)</option> <!-- Canada -->
+                <option value="+27">ZA (+27)</option> <!-- South Africa -->
+                <option value="+966">SA (+966)</option> <!-- Saudi Arabia -->
+            </select>
         </div>
         <br>
-        <input type="password" name="password" id="password" placeholder="Enter Password" required>
+        <input type="password" name="password" id="password" placeholder="Enter Password" autocomplete="new-password" required>
         <br><br>
         <input type="password" name="password_confirmation" id="confirmPassword" placeholder="Enter Confirm Password" required>
         <br><br>
+        <p id="password-suggestion" style="color: red;"></p>
         <input type="submit" value="Register">
     </form>
 
@@ -240,65 +239,53 @@ input[type="password"].strong-password {
     </div>
 
     <script>
-     // Function to update password input indicator
-function updatePasswordStrength() {
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-    const passwordLength = password.length;
+        // Function to update password input indicator and suggest a strong password
+        function updatePasswordStrength() {
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const passwordLength = password.length;
 
-    // Check password length and set appropriate class for the password input box
-    if (passwordLength === 0 || passwordLength <= 5) {
-        passwordInput.className = 'weak-password';
-    } else {
-        passwordInput.className = 'strong-password';
-    }
+            // Check password length and set appropriate class for the password input box
+            if (passwordLength === 0 || passwordLength < 6) {
+                passwordInput.className = 'weak-password';
+            } else if (/[a-z]/.test(password) && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password)) {
+                passwordInput.className = 'strong-password';
+            } else {
+                passwordInput.className = 'weak-password';
+            }
 
-    // Check if the passwords match and set appropriate class for the confirm password input box
-    if (password === confirmPassword && confirmPassword !== '') {
-        confirmPasswordInput.className = 'strong-password';
-    } else {
-        confirmPasswordInput.className = 'weak-password';
-    }
-}
+            // Check if the passwords match and set appropriate class for the confirm password input box
+            if (password === confirmPassword && confirmPassword !== '') {
+                confirmPasswordInput.className = 'strong-password';
+            } else {
+                confirmPasswordInput.className = 'weak-password';
+            }
 
-// Event listener for password and confirm password inputs
-const passwordInput = document.getElementById('password');
-const confirmPasswordInput = document.getElementById('confirmPassword');
-passwordInput.addEventListener('input', updatePasswordStrength);
-confirmPasswordInput.addEventListener('input', updatePasswordStrength);
+            // Suggest a strong password if it doesn't meet the requirements
+            const suggestionElement = document.getElementById('password-suggestion');
+            if (passwordLength > 0 && passwordLength < 6) {
+                suggestionElement.textContent = 'Password should be at least 6 characters long.';
+            } else if (!/[a-z]/.test(password)) {
+                suggestionElement.textContent = 'Include at least one lowercase letter.';
+            } else if (!/[A-Z]/.test(password)) {
+                suggestionElement.textContent = 'Include at least one uppercase letter.';
+            } else if (!/[0-9]/.test(password)) {
+                suggestionElement.textContent = 'Include at least one number.';
+            } else if (!/[!@#$%^&*]/.test(password)) {
+                suggestionElement.textContent = 'Include at least one special character (!@#$%^&*).';
+            } else {
+                suggestionElement.textContent = '';
+            }
+        }
 
-// Function to show confirmation popup
-function showConfirmationPopup(event) {
-    event.preventDefault();
-
-    const confirmationPopup = document.getElementById('confirmationPopup');
-    confirmationPopup.style.display = 'flex';
-
-    const cancelButton = document.getElementById('cancelButton');
-    cancelButton.addEventListener('click', hideConfirmationPopup);
-
-    const confirmButton = document.getElementById('confirmButton');
-    confirmButton.addEventListener('click', submitForm);
-}
-
-// Function to hide confirmation popup
-function hideConfirmationPopup() {
-    const confirmationPopup = document.getElementById('confirmationPopup');
-    confirmationPopup.style.display = 'none';
-}
-
-// Function to submit the form
-function submitForm() {
-    const form = document.getElementById('registerForm');
-    form.submit();
-}
-
-// Event listener for form submission
-const form = document.getElementById('registerForm');
-form.addEventListener('submit', showConfirmationPopup);
-
+        // Event listener for password and confirm password inputs
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        passwordInput.addEventListener('input', updatePasswordStrength);
+        confirmPasswordInput.addEventListener('input', updatePasswordStrength);
     </script>
+
 </body>
 </html>
