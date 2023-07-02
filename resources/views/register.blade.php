@@ -256,6 +256,7 @@
     </div>
 
     <script>
+
         // Function to update password input indicator and suggest a strong password
         function updatePasswordStrength() {
             const passwordInput = document.getElementById('password');
@@ -296,6 +297,31 @@
                 suggestionElement.textContent = '';
             }
         }
+
+        const submitButton = document.querySelector('input[type="submit"]');
+        submitButton.addEventListener('click', showConfirmationPopup);
+
+        function showConfirmationPopup(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Display the pop-up container
+    const popupContainer = document.getElementById('confirmationPopup');
+    popupContainer.style.display = 'flex';
+
+    // Add event listeners to the cancel and confirm buttons
+    const cancelButton = document.getElementById('cancelButton');
+    const confirmButton = document.getElementById('confirmButton');
+    cancelButton.addEventListener('click', hideConfirmationPopup);
+    confirmButton.addEventListener('click', submitForm);
+}
+function hideConfirmationPopup() {
+    const popupContainer = document.getElementById('confirmationPopup');
+    popupContainer.style.display = 'none';
+}
+function submitForm() {
+    const form = document.getElementById('registerForm');
+    form.submit();
+}
 
         // Function to toggle password visibility
         function togglePasswordVisibility() {
