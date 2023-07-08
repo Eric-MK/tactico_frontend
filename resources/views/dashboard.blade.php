@@ -24,9 +24,20 @@
     <p>Error: {{ $error }}</p>
 @else
     @isset($data)
-        @foreach ($data as $player)
-            <p>{{ $player['Player'] }}</p>
-        @endforeach
+    @foreach ($data as $player)
+    <p>Name: {{ $player['Player'] }}</p>
+    <p>Similarity: {{ $player['Similarity'] }}</p>
+    <p>Stats: </p>
+    <ul>
+        <li>1: {{ $player['1'] }}</li>
+        <li>11: {{ $player['11'] }}</li>
+        <li>141: {{ $player['141'] }}</li>
+        <li>3: {{ $player['3'] }}</li>
+        <li>5: {{ $player['5'] }}</li>
+        <li>6: {{ $player['6'] }}</li>
+    </ul>
+    <br>
+@endforeach
     @endisset
 @endif
 
