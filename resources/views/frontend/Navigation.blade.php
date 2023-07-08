@@ -34,7 +34,7 @@
             </span>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Log Out</a>
+                    <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                 </li>
             </ul>
         </div>
