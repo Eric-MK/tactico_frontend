@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlayerRecommendationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,5 @@ Route::get('/verification/{id}', [UserController::class, 'verification']);
 Route::post('/verified', [UserController::class, 'verifiedOtp'])->name('verifiedOtp');
 Route::get('/dashboard', [UserController::class, 'loadDashboard'])->name('dashboard');
 Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resendOtp');
+Route::post('/recommendations', [PlayerRecommendationController::class, 'index']);
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
