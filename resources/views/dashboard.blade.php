@@ -1,3 +1,9 @@
+
+
+
+@include('frontend.Navigation') <!-- Include the navigation view -->
+
+
 <h1>Welcome... {{ auth()->user()->name }}</h1>
 
 <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">

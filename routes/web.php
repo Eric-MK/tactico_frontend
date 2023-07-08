@@ -29,3 +29,7 @@ Route::get('/dashboard', [UserController::class, 'loadDashboard'])->name('dashbo
 Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resendOtp');
 Route::post('/recommendations', [PlayerRecommendationController::class, 'index']);
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route::get('/nav', function () {
+    return view('frontend.Navigation');
+});
