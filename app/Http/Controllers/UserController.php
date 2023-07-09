@@ -101,10 +101,15 @@ class UserController extends Controller
         $user->name = $request->name;
     }
 
-    if ($request->email) {
+    if ($request->email && $request->email != $user->email) {
         $user->email = $request->email;
-    }
+        $user->is_verified = 0;  // Set is_verified to 0
+        $user->save();
+        Auth::logout(); // logout the user
 
+        return redirect('/login');
+    }
+    
     if ($request->phone) {
         $user->phone = $request->phone;
     }
@@ -115,8 +120,11 @@ class UserController extends Controller
 
     $user->save();
 
+
+
     return redirect('/pro')->with('success', 'Profile updated successfully.');
 }
+
 
 
 
