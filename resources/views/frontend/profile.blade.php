@@ -56,12 +56,12 @@
                                 <input id="phone" type="text" class="form-control" name="phone" value="{{ Auth::user()->phone }}"  autocomplete="phone">
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" id="password" autocomplete="new-password">
+                                <input type="checkbox" id="toggle-password"> Show Password
                             </div>
                         </div>
 
@@ -72,6 +72,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
                             </div>
                         </div>
+
                         <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -119,6 +120,25 @@
             e.target.submit(); // Only submit the form in the callback when the user has confirmed
         });
     });
+
+    document.getElementById('toggle-password').addEventListener('change', function (e) {
+    var password = document.getElementById('password');
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+});
+
+document.getElementById('toggle-confirm-password').addEventListener('change', function (e) {
+    var passwordConfirm = document.getElementById('password-confirm');
+    if (passwordConfirm.type === "password") {
+        passwordConfirm.type = "text";
+    } else {
+        passwordConfirm.type = "password";
+    }
+});
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
