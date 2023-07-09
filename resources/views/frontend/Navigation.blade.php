@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <style>
+
+
        .nav-link {
     text-decoration: none;
 }
@@ -23,16 +25,16 @@
 .nav-link:hover {
     text-decoration: underline;
 }
-
-        .logout{
+.nav-link.logout{
            color: red;
            text-decoration: none;
 
         }
-        .logout:hover{
-           color: red;
-           font-size: 17px;
-           text-decoration: none;
+
+        .nav-link.logout:hover{
+            color: red;
+            font-size: 17px;
+          text-decoration: none;
 
         }
 

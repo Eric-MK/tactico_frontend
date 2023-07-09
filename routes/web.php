@@ -31,5 +31,5 @@ Route::post('/recommendations', [PlayerRecommendationController::class, 'index']
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/nav', function () {
-    return view('frontend.Navigation');
+    return view('frontend.FooterPage');
 });

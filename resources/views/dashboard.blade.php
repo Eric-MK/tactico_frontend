@@ -1,52 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HomePage</title>
+</head>
+<style>
+ .main-body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .main-footer {
+        margin-top: auto;
+    }
+
+    
 
 
+</style>
+<body class="main-body">
+    @include('frontend.Navigation') <!-- Include the navigation view -->
 
-@include('frontend.Navigation') <!-- Include the navigation view -->
 
-
-{{-- <h1>Welcome... {{ auth()->user()->name }}</h1>
- --}}
- <br>
-<form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">
-    @csrf
-    <label for="player_type">Player Type:</label>
-    <input type="text" id="player_type" name="player_type"><br>
-<br>
-    <label for="query">Player Name:</label>
-    <input type="text" id="query" name="query"><br>
-<br>
-    <label for="count">Count:</label>
-    <input type="text" id="count" name="count"><br>
-<br>
-    <label for="comparison">Comparison:</label>
-    <input type="text" id="comparison" name="comparison"><br>
-<br>
-    <label for="league">League:</label>
-    <input type="text" id="league" name="league"> <br>
-<br>
-    <input type="submit" value="Submit">
-</form>
-
-@if (isset($error))
-    <p>Error: {{ $error }}</p>
-@else
-    @isset($data)
-    @foreach ($data as $player)
-    <p>Name: {{ $player['Player'] }}</p>
-    <p>Similarity: {{ $player['Similarity'] }}</p>
-    <p>Stats: </p>
-    <ul>
-        <li>1: {{ $player['1'] }}</li>
-        <li>11: {{ $player['11'] }}</li>
-        <li>141: {{ $player['141'] }}</li>
-        <li>3: {{ $player['3'] }}</li>
-        <li>5: {{ $player['5'] }}</li>
-        <li>6: {{ $player['6'] }}</li>
-    </ul>
+    {{-- <h1>Welcome... {{ auth()->user()->name }}</h1>
+     --}}
+     <br>
+    <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">
+        @csrf
+        <label for="player_type">Player Type:</label>
+        <input type="text" id="player_type" name="player_type"><br>
     <br>
-@endforeach
-    @endisset
-@endif
+        <label for="query">Player Name:</label>
+        <input type="text" id="query" name="query"><br>
+    <br>
+        <label for="count">Count:</label>
+        <input type="text" id="count" name="count"><br>
+    <br>
+        <label for="comparison">Comparison:</label>
+        <input type="text" id="comparison" name="comparison"><br>
+    <br>
+        <label for="league">League:</label>
+        <input type="text" id="league" name="league"> <br>
+    <br>
+        <input type="submit" value="Submit">
+    </form>
 
-{{-- <a href="{{ route('logout') }}">Logout</a>
- --}}
+    @if (isset($error))
+        <p>Error: {{ $error }}</p>
+    @else
+        @isset($data)
+        @foreach ($data as $player)
+        <p>Name: {{ $player['Player'] }}</p>
+        <p>Similarity: {{ $player['Similarity'] }}</p>
+        <p>Stats: </p>
+        <ul>
+            <li>1: {{ $player['1'] }}</li>
+            <li>11: {{ $player['11'] }}</li>
+            <li>141: {{ $player['141'] }}</li>
+            <li>3: {{ $player['3'] }}</li>
+            <li>5: {{ $player['5'] }}</li>
+            <li>6: {{ $player['6'] }}</li>
+        </ul>
+        <br>
+    @endforeach
+        @endisset
+    @endif
+
+    {{-- <a href="{{ route('logout') }}">Logout</a>
+     --}}
+
+
+@include('frontend.FooterPage') <!-- Include the footer view -->
+
+
+
+</body>
+</html>
+
+
+
