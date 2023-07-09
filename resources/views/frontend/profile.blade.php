@@ -90,6 +90,27 @@
 @include('frontend.FooterPage') <!-- Include the footer view -->
 
 
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        // Original email from hidden input
+        var originalEmail = '{{ Auth::user()->email }}';
+        // New email from email input field
+        var newEmail = document.querySelector('#email').value;
+
+        // Message to display when email changes
+        var message = 'Are you sure you want to submit your data?';
+        if (originalEmail !== newEmail) {
+            message += ' If you change your email, you will be logged out.';
+        }
+
+        // Confirm submission
+        if (!confirm(message)) {
+            // If user clicks "Cancel", prevent form submission
+            e.preventDefault();
+        }
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
