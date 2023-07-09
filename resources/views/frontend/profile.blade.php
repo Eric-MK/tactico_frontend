@@ -112,7 +112,7 @@
             text: message,
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
+            confirmButtonColor: "green",
             confirmButtonText: "Yes, I'm sure!",
             closeOnConfirm: false
         }, function() {
