@@ -15,12 +15,23 @@
     text-decoration: none;
 }
 
+.nav-link.active:hover {
+
+    text-decoration: none;
+}
+
 .nav-link:hover {
     text-decoration: underline;
 }
 
         .logout{
            color: red;
+           text-decoration: none;
+
+        }
+        .logout:hover{
+           color: red;
+           font-size: 17px;
            text-decoration: none;
 
         }
