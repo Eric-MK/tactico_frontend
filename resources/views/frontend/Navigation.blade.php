@@ -25,6 +25,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
             border-radius: 9px;
             margin-left:10px;
+            margin-right:5px;
 
         }
 
@@ -72,18 +73,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/dashboard">Home</a>
+                    <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="/dashboard">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Shortlist</a>
+                    <a class="nav-link {{ request()->is('shortlist') ? 'active' : '' }}" href="#">Shortlist</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
+                    <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="#">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link {{ request()->is('pro') ? 'active' : '' }}" href="/pro">Profile</a>
                 </li>
             </ul>
+
             <span class="navbar-text">
                 Logged in as: {{ auth()->user()->name }}
             </span>

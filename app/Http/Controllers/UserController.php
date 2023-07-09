@@ -72,6 +72,52 @@ class UserController extends Controller
 
     }
 
+    public function showProfile()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        $user = Auth::user();
+        return view('profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+{
+    if (!Auth::check()) {
+        return redirect('/login');
+    }
+
+    $user = Auth::user();
+
+    $request->validate([
+        'name' => 'string|nullable|min:2',
+        'email' => 'string|email|nullable|max:100|unique:users,email,'.$user->id,
+        'phone' => 'nullable',
+        'password' => 'nullable|confirmed|min:6',
+    ]);
+
+    if ($request->name) {
+        $user->name = $request->name;
+    }
+
+    if ($request->email) {
+        $user->email = $request->email;
+    }
+
+    if ($request->phone) {
+        $user->phone = $request->phone;
+    }
+
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect('/pro')->with('success', 'Profile updated successfully.');
+}
+
 
 
     public function logout()
