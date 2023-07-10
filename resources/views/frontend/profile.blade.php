@@ -93,33 +93,53 @@
 
 
 <script>
-    document.querySelector('form').addEventListener('submit', function(e) {
-        // Original email from hidden input
-        var originalEmail = '{{ Auth::user()->email }}';
-        // New email from email input field
-        var newEmail = document.querySelector('#email').value;
+  document.querySelector('form').addEventListener('submit', function(e) {
+    // Get the password and password confirm inputs
+    var password = document.querySelector('#password').value;
+    var passwordConfirm = document.querySelector('#password-confirm').value;
 
-        // Message to display when email changes
-        var message = 'Are you sure you want to submit your data?';
-        if (originalEmail !== newEmail) {
-            message += ' If you change your email, you will be logged out.';
+    // Check if the passwords are not empty
+    if (password.length > 0 || passwordConfirm.length > 0) {
+        // Check if the passwords match and are at least 6 characters long
+        if (password !== passwordConfirm) {
+            swal("Error", "Passwords do not match.", "error");
+            e.preventDefault();
+            return;
+        } else if (password.length < 6) {
+            swal("Error", "Password should be at least 6 characters long.", "error");
+            e.preventDefault();
+            return;
         }
+    }
 
-        // Confirm submission
-        e.preventDefault(); // Always prevent the default first
+    // Original email from hidden input
+    var originalEmail = '{{ Auth::user()->email }}';
+    // New email from email input field
+    var newEmail = document.querySelector('#email').value;
 
-        swal({
-            title: "Confirm Submission",
-            text: message,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "green",
-            confirmButtonText: "Yes, I'm sure!",
-            closeOnConfirm: false
-        }, function() {
-            e.target.submit(); // Only submit the form in the callback when the user has confirmed
-        });
+    // Message to display when email changes
+    var message = 'Are you sure you want to submit your data?';
+    if (originalEmail !== newEmail) {
+        message += ' If you change your email, you will be logged out.';
+    }
+
+    // Confirm submission
+    e.preventDefault(); // Always prevent the default first
+
+    swal({
+        title: "Confirm Submission",
+        text: message,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "green",
+        confirmButtonText: "Yes, I'm sure!",
+        closeOnConfirm: false
+    }, function() {
+        e.target.submit(); // Only submit the form in the callback when the user has confirmed
     });
+});
+
+
 
     document.getElementById('toggle-password').addEventListener('change', function (e) {
     var password = document.getElementById('password');
