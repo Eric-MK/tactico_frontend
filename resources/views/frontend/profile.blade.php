@@ -94,6 +94,23 @@
 
 <script>
   document.querySelector('form').addEventListener('submit', function(e) {
+ // Get the phone number
+ var phone = document.querySelector('#phone').value;
+
+// Original phone from hidden input
+var originalPhone = '{{ Auth::user()->phone }}';
+
+// Check if the phone number has changed
+if (phone !== originalPhone) {
+    // If changed, check if it's a Kenyan number (9 or 10 digits, starts with '07' or '7', or starts with '+254')
+    var kenyanPhoneRegex = /^(?:\+254|0)?[17]\d{8}$/;
+    if (!kenyanPhoneRegex.test(phone)) {
+        swal("Error", "Invalid Kenyan phone number. Please enter a valid number.", "error");
+        e.preventDefault();
+        return;
+    }
+}
+
     // Get the password and password confirm inputs
     var password = document.querySelector('#password').value;
     var passwordConfirm = document.querySelector('#password-confirm').value;
