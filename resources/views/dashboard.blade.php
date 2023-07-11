@@ -99,6 +99,9 @@
         const labels = data.map(player => player.Player);
         const similarities = data.map(player => parseFloat(player.Similarity));
 
+        // get the minimum similarity value and decrease it a bit for the chart's minimum y value
+        const minSimilarity = Math.min(...similarities) - 0.1;
+
         const ctx = document.getElementById('similarityChart').getContext('2d');
 
         new Chart(ctx, {
@@ -116,7 +119,8 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        min: minSimilarity,
+                        max: 100
                     }
                 }
             }
