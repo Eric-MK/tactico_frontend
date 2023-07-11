@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+
     <style>
         /* Internal CSS styles for the login form and container */
         body, html {
