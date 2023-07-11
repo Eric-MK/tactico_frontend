@@ -105,6 +105,9 @@
         // get the minimum similarity value and decrease it a bit for the chart's minimum y value
         const minSimilarity = Math.min(...similarities) - 0.1;
 
+        // get the maximum similarity value and increase it a bit for the chart's maximum y value
+        const maxSimilarity = Math.max(...similarities) + 0.1;
+
         const ctx = document.getElementById('similarityChart').getContext('2d');
 
         new Chart(ctx, {
@@ -123,7 +126,7 @@
                 scales: {
                     y: {
                         min: minSimilarity,
-                        max: 100
+                        max: maxSimilarity
                     }
                 }
             }
