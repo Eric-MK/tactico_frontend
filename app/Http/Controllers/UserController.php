@@ -95,6 +95,8 @@ class UserController extends Controller
         'email' => 'string|email|nullable|max:100|unique:users,email,'.$user->id,
         'phone' => 'nullable',
         'password' => 'nullable|confirmed|min:6',
+    ], [
+        'email.unique' => 'The email entered is already taken by another user.',
     ]);
 
     if ($request->name) {
@@ -109,7 +111,7 @@ class UserController extends Controller
 
         return redirect('/login');
     }
-    
+
     if ($request->phone) {
         $user->phone = $request->phone;
     }
