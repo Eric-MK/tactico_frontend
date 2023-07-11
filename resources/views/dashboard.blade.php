@@ -79,13 +79,50 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Insert the canvas for the chart here -->
+            <canvas id="similarityChart"></canvas>
             @endisset
         @endif
-
     </div>
 
     @include('frontend.FooterPage') <!-- Include the footer view -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Add the script to create the chart -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @isset($data)
+        const data = @json($data);
+        const labels = data.map(player => player.Player);
+        const similarities = data.map(player => parseFloat(player.Similarity));
+
+        const ctx = document.getElementById('similarityChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Similarity',
+                    data: similarities,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        @endisset
+    });
+    </script>
 </body>
 </html>
