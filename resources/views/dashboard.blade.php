@@ -7,6 +7,7 @@
     <title>HomePage</title>
     <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         .main-body {
             display: flex;
@@ -48,7 +49,9 @@
         </form>
 
         @if (isset($error))
-            <p class="mt-5">Error: {{ $error }}</p>
+        <script>
+            swal("Error", "{{ $error }}", "error");
+            </script>
         @else
             @isset($data)
             <table class="table mt-5">
