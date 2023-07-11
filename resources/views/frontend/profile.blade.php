@@ -28,6 +28,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Update Profile') }}</div>
+                @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
                 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
