@@ -29,10 +29,14 @@ class UserController extends Controller
         if (!Auth::check()) {
             return redirect('/login');
         }
-        
+
         return view('frontend.profile');
     }
 
+     public function loadLandigPage()
+    {
+        return view('frontend.LandingPage');
+    }
 
     public function showResetForm($token)
     {

@@ -21,7 +21,7 @@ Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('
 Route::get('/register', [UserController::class, 'loadRegister']);
 Route::post('/register', [UserController::class, 'studentRegister'])->name('studentRegister');
 Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
-Route::get('/', [UserController::class, 'loadLogin']);
+Route::get('/', [UserController::class, 'loadLandigPage']);
 Route::post('/login', [UserController::class, 'userLogin'])->name('userLogin');
 Route::get('/verification/{id}', [UserController::class, 'verification']);
 Route::get('/pro',[UserController::class, 'loadProfile']);
@@ -33,6 +33,7 @@ Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resendOtp
 Route::post('/recommendations', [PlayerRecommendationController::class, 'index']);
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/nav', function () {
-    return view('frontend.FooterPage');
+/* Route::get('/nav', function () {
+    return view('frontend.LandingPage');
 });
+ */
