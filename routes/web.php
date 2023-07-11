@@ -24,9 +24,7 @@ Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
 Route::get('/', [UserController::class, 'loadLogin']);
 Route::post('/login', [UserController::class, 'userLogin'])->name('userLogin');
 Route::get('/verification/{id}', [UserController::class, 'verification']);
-Route::get('/pro', function () {
-    return view('frontend.profile');
-});
+Route::get('/pro',[UserController::class, 'loadProfile']);
 Route::get('/profile', [UserController::class, 'showProfile']);
 Route::post('/profile', [UserController::class, 'updateProfile']);
 Route::post('/verified', [UserController::class, 'verifiedOtp'])->name('verifiedOtp');

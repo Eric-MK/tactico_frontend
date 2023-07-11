@@ -24,6 +24,16 @@ class UserController extends Controller
         return view('register');
     }
 
+    public function loadProfile()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+        
+        return view('frontend.profile');
+    }
+
+
     public function showResetForm($token)
     {
         return view('reset_password_form', ['token' => $token]);
