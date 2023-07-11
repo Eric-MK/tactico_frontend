@@ -23,70 +23,83 @@
     @include('frontend.Navigation') <!-- Include the navigation view -->
 
     <div class="container my-5">
-        <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">
-            @csrf
-            <div class="mb-3">
-                <label for="player_type" class="form-label">Player Type:</label>
-                <input type="text" class="form-control" id="player_type" name="player_type">
+        <div class="row">
+            <div class="col-md-6">
+                <br><br><br>
+                <img src="statistics.jpg" alt="Your Image" class="img-fluid" style="border-radius: 9px">
             </div>
-            <div class="mb-3">
-                <label for="query" class="form-label">Player Name:</label>
-                <input type="text" class="form-control" id="query" name="query">
+            <div class="col-md-6">
+                <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="player_type" class="form-label">Player Type:</label>
+                        <input type="text" class="form-control" id="player_type" name="player_type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Player Name:</label>
+                        <input type="text" class="form-control" id="query" name="query">
+                    </div>
+                    <div class="mb-3">
+                        <label for="count" class="form-label">Count:</label>
+                        <input type="text" class="form-control" id="count" name="count">
+                    </div>
+                    <div class="mb-3">
+                        <label for="comparison" class="form-label">Comparison:</label>
+                        <input type="text" class="form-control" id="comparison" name="comparison">
+                    </div>
+                    <div class="mb-3">
+                        <label for="league" class="form-label">League:</label>
+                        <input type="text" class="form-control" id="league" name="league">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="count" class="form-label">Count:</label>
-                <input type="text" class="form-control" id="count" name="count">
-            </div>
-            <div class="mb-3">
-                <label for="comparison" class="form-label">Comparison:</label>
-                <input type="text" class="form-control" id="comparison" name="comparison">
-            </div>
-            <div class="mb-3">
-                <label for="league" class="form-label">League:</label>
-                <input type="text" class="form-control" id="league" name="league">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div> <!-- End of the row -->
 
-        @if (isset($error))
-        <script>
-            swal("Error", "{{ $error }}", "error");
-            </script>
-        @else
-            @isset($data)
-            <table class="table mt-5">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Similarity</th>
-                        <th>1</th>
-                        <th>11</th>
-                        <th>141</th>
-                        <th>3</th>
-                        <th>5</th>
-                        <th>6</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $player)
-                    <tr>
-                        <td>{{ $player['Player'] }}</td>
-                        <td>{{ $player['Similarity'] }}</td>
-                        <td>{{ $player['1'] }}</td>
-                        <td>{{ $player['11'] }}</td>
-                        <td>{{ $player['141'] }}</td>
-                        <td>{{ $player['3'] }}</td>
-                        <td>{{ $player['5'] }}</td>
-                        <td>{{ $player['6'] }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <!-- New row for the data and graph -->
+        <div class="row">
+            <div class="col-md-12">
+                @if (isset($error))
+                <script>
+                    swal("Error", "{{ $error }}", "error");
+                </script>
+                @else
+                    @isset($data)
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Similarity</th>
+                                <th>1</th>
+                                <th>11</th>
+                                <th>141</th>
+                                <th>3</th>
+                                <th>5</th>
+                                <th>6</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $player)
+                            <tr>
+                                <td>{{ $player['Player'] }}</td>
+                                <td>{{ $player['Similarity'] }}</td>
+                                <td>{{ $player['1'] }}</td>
+                                <td>{{ $player['11'] }}</td>
+                                <td>{{ $player['141'] }}</td>
+                                <td>{{ $player['3'] }}</td>
+                                <td>{{ $player['5'] }}</td>
+                                <td>{{ $player['6'] }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-            <!-- Insert the canvas for the chart here -->
-            <canvas id="similarityChart"></canvas>
-            @endisset
-        @endif
+                    <!-- Insert the canvas for the chart here -->
+                    <canvas id="similarityChart"></canvas>
+                    @endisset
+                @endif
+            </div>
+        </div> <!-- End of the row -->
     </div>
 
     @include('frontend.FooterPage') <!-- Include the footer view -->
