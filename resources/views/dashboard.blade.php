@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HomePage</title>
     <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
@@ -59,11 +60,17 @@
         <!-- New row for the graph -->
         <div class="row mt-5">
             <div class="col-md-12">
-                @isset($data)
-                <canvas id="similarityChart"></canvas>
-                @endisset
+                @if (isset($error))
+                    <script>
+                        swal("Error", "{{ $error }}", "error");
+                    </script>
+                @else
+                    @isset($data)
+                        <canvas id="similarityChart"></canvas>
+                    @endisset
+                @endif
             </div>
-        </div> <!-- End of the row -->
+        </div>  <!-- End of the row -->
 
         <!-- New row for the data -->
         <div class="row mt-5">
