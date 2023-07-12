@@ -17,6 +17,10 @@
         .main-footer {
             margin-top: auto;
         }
+        .pie-chart {
+            width: 50px;
+            height: 50px;
+        }
     </style>
 </head>
 <body class="main-body">
@@ -65,7 +69,7 @@
                 </script>
                 @else
                     @isset($data)
-                    <table class="table mt-5">
+                   {{--  <table class="table mt-5">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -92,10 +96,23 @@
                             </tr>
                             @endforeach
                         </tbody>
-                    </table>
+                    </table> --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Insert the canvas for the similarity chart here -->
+                            <canvas id="similarityChart"></canvas>
+                        </div>
+                    </div>
 
-                    <!-- Insert the canvas for the chart here -->
-                    <canvas id="similarityChart"></canvas>
+                    <div class="row mt-5">
+                        @foreach ($data as $player)
+                        <div class="col-md-4">
+                            <h5>{{ $player['Player'] }}</h5>
+                            <canvas id="playerChart{{ $loop->index }}" class="pie-chart"></canvas>
+                            <button type="button" class="btn btn-primary mt-2">Add to Shortlist</button>
+                        </div>
+                        @endforeach
+                    </div>
                     @endisset
                 @endif
             </div>
@@ -143,6 +160,23 @@
                     }
                 }
             }
+        });
+
+        // create the pie charts
+        data.forEach((player, i) => {
+            const ctx = document.getElementById(`playerChart${i}`).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['1', '11', '141', '3'], // adjust the labels as per your data
+                    datasets: [{
+                        data: [player['1'], player['11'], player['141'], player['3']], // adjust the stats as per your data
+                        backgroundColor: ['red', 'blue', 'yellow', 'green'],
+                        borderColor: 'white',
+                        borderWidth: 1
+                    }]
+                }
+            });
         });
         @endisset
     });
