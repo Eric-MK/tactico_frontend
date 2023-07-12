@@ -15,13 +15,17 @@ class CreateShortlistsTable extends Migration
     {
         Schema::create('shortlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('player_name');
             $table->string('position');
             $table->string('competition');
             $table->integer('age');
             $table->string('player_type')->nullable();
             $table->timestamps();
+
+            $table->foreignId('user_id')
+        ->constrained('users')
+        ->constrained()
+        ->onDelete('cascade'); // Set cascade delete behavior
         });
     }
 

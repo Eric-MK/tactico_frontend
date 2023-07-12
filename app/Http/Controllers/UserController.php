@@ -299,11 +299,15 @@ public function deleteAccount(User $user)
             //$this->sendOtp($userData, $request->email);
             return redirect("/verification/" . $userData->id);
         } elseif (Auth::attempt($userCredential)) {
-            return redirect('/dashboard');
+            if ($userData->role === 'admin') {
+                return redirect('verified-accounts'); // redirect to admin page
+            }
+            return redirect('/dashboard'); // redirect to user page
         } else {
             return back()->with('error', 'Username & Password is incorrect');
         }
     }
+
 
     public function loadDashboard()
     {
@@ -394,4 +398,10 @@ public function deleteAccount(User $user)
 
         return back()->with('success', 'Password reset link has been sent to your email.');
     }
+
+    /* public function loadadmin()
+    {
+        return view('Admin.admin');
+    }
+ */
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlayerRecommendationController;
 use App\Http\Controllers\ShortlistController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,19 @@ Route::post('/recommendations', [PlayerRecommendationController::class, 'index']
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 
+/* Route::get('/page', [UserController::class, 'loadadmin'])->name('loadadmin')->middleware('admin');
+ */
+Route::get('verified-accounts', [AdminController::class, 'viewVerifiedAccounts'])->name('admin.verified-accounts')->middleware('admin');
+
+Route::get('nonverified-accounts', [AdminController::class, 'viewNonVerifiedAccounts'])->name('admin.nonverified-accounts')->middleware('admin');
+Route::get('deleted-accounts', [AdminController::class, 'viewDeletedAccounts'])->name('admin.deleted-accounts')->middleware('admin');
+Route::post('/admin/unverify/{id}', [AdminController::class,'unverify'])->name('admin.unverify')->middleware('admin');
+Route::post('/admin/verify/{id}', [AdminController::class,'verify'])->name('admin.verify')->middleware('admin');
+Route::post('/admin/delete/{id}', [AdminController::class,'delete'])->name('admin.delete')->middleware('admin');
+
+
+Route::get('/admin', function () {
+})->middleware('admin');
 
 /* Route::get('/nav', function () {
     return view('frontend.LandingPage');

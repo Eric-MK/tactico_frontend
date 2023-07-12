@@ -22,9 +22,11 @@ class CreateUsersTable extends Migration
             $table->integer('is_verified')->default(0);
             $table->boolean('is_deleted')->default(0); // Add is_deleted column
             $table->string('password');
+            $table->string('role')->default('user'); // Add role column with 'user' as default value
             $table->rememberToken();
             $table->timestamps();
         });
+
 
 
     }
