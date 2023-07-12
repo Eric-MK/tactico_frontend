@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlayerRecommendationController;
+use App\Http\Controllers\ShortlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use App\Http\Controllers\PlayerRecommendationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('/send-reset-link', [UserController::class, 'sendResetLink'])->name('sendResetLink');
 Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('resetPassword');
@@ -24,6 +27,13 @@ Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
 Route::get('/', [UserController::class, 'loadLandigPage']);
 Route::post('/login', [UserController::class, 'userLogin'])->name('userLogin');
 Route::get('/verification/{id}', [UserController::class, 'verification']);
+Route::delete('shortlist/{id}', [ShortlistController::class, 'destroy'])->name('shortlist.destroy');
+
+/* Route::get('/shortlist', [UserController::class, 'loadingshortlist'])->name('shortlist');
+ */
+Route::post('shortlist', [ShortlistController::class, 'store'])->name('shortlist.store');
+Route::get('shortlisted-players/{userId}', [ShortlistController::class, 'index']);
+
 Route::post('deleteAccount/{user}', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 Route::get('/pro',[UserController::class, 'loadProfile']);
 Route::get('/profile', [UserController::class, 'showProfile']);
@@ -33,6 +43,8 @@ Route::get('/dashboard', [UserController::class, 'loadDashboard'])->name('dashbo
 Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resendOtp');
 Route::post('/recommendations', [PlayerRecommendationController::class, 'index']);
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+
 
 /* Route::get('/nav', function () {
     return view('frontend.LandingPage');

@@ -22,7 +22,17 @@
 </head>
 <body class="main-body">
     @include('frontend.Navigation') <!-- Include the navigation view -->
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6">
@@ -34,11 +44,14 @@
                     @csrf
                     <div class="mb-3">
                         <label for="player_type" class="form-label">Player Type:</label>
-                        <input type="text" class="form-control" id="player_type" name="player_type">
+                        <select class="form-control" id="player_type" name="player_type">
+                            <option>Outfield players</option>
+                            <option>Goalkeepers</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="query" class="form-label">Player Name:</label>
-                        <input type="text" class="form-control" id="query" name="query">
+                        <input type="text" class="form-control" id="query" name="query" placeholder="Firstname Secondname (Team)">
                     </div>
                     <div class="mb-3">
                         <label for="count" class="form-label">Count:</label>
@@ -46,14 +59,22 @@
                     </div>
                     <div class="mb-3">
                         <label for="comparison" class="form-label">Comparison:</label>
-                        <input type="text" class="form-control" id="comparison" name="comparison">
+                        <input type="text" class="form-control" id="comparison" name="comparison" value="All positions" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="league" class="form-label">League:</label>
-                        <input type="text" class="form-control" id="league" name="league">
+                        <select class="form-control" id="league" name="league">
+                            <option>All</option>
+                            <option>Premier League</option>
+                            <option>La Liga</option>
+                            <option>Bundesliga</option>
+                            <option>Serie A</option>
+                            <option>Ligue 1</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+
             </div>
         </div> <!-- End of the row -->
 
@@ -98,7 +119,17 @@
                             <td>{{ $player['Age'] }}</td>
                             <td>{{ $player['90s'] }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary">Add to Shortlist</button>
+                                <form action="{{ route('shortlist.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="player_name" value="{{ $player['Player'] }}">
+                                    <input type="hidden" name="position" value="{{ $player['Pos'] }}">
+                                    <input type="hidden" name="competition" value="{{ $player['Comp'] }}">
+{{--                                     <input type="hidden" name="player_type" value="{{ $player['Age'] }}">
+ --}}
+                                    <input type="hidden" name="age" value="{{ $player['Age'] }}">
+                                    <!-- Include other relevant player data here -->
+                                    <button type="submit" class="btn btn-primary">Add to Shortlist</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

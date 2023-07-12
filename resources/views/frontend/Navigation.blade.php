@@ -76,7 +76,7 @@
                     <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="/dashboard">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('shortlist') ? 'active' : '' }}" href="#">Shortlist</a>
+                    <a class="nav-link {{ request()->is('shortlisted-players') ? 'active' : '' }}" href="{{ url('shortlisted-players', Auth::user()->id) }}">Shortlist</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="#">About Us</a>

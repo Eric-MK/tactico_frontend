@@ -33,6 +33,14 @@ class UserController extends Controller
         return view('frontend.profile');
     }
 
+    public function loadingshortlist()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        return view('frontend.ShortlistPage');
+    }
      public function loadLandigPage()
     {
         return view('frontend.LandingPage');
