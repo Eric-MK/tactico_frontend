@@ -15,6 +15,7 @@ class PlayerRecommendationController extends Controller
         $player_type = $request->input('player_type');
         $query = $request->input('query');
         $count = $request->input('count');
+        $comparison = $request->input('comparison');
         $league = $request->input('league');
 
         try {
@@ -23,6 +24,7 @@ class PlayerRecommendationController extends Controller
                     'player_type' => $player_type,
                     'query' => $query,
                     'count' => $count,
+                    'comparison' => $comparison,
                     'league' => $league,
                 ]
             ]);

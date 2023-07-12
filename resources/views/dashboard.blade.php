@@ -17,10 +17,6 @@
         .main-footer {
             margin-top: auto;
         }
-        .pie-chart {
-            width: 50px;
-            height: 50px;
-        }
     </style>
 </head>
 <body class="main-body">
@@ -60,61 +56,48 @@
             </div>
         </div> <!-- End of the row -->
 
-        <!-- New row for the data and graph -->
-        <div class="row">
+        <!-- New row for the graph -->
+        <div class="row mt-5">
             <div class="col-md-12">
-                @if (isset($error))
-                <script>
-                    swal("Error", "{{ $error }}", "error");
-                </script>
-                @else
-                    @isset($data)
-                   {{--  <table class="table mt-5">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Similarity</th>
-                                <th>1</th>
-                                <th>11</th>
-                                <th>141</th>
-                                <th>3</th>
-                                <th>5</th>
-                                <th>6</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $player)
-                            <tr>
-                                <td>{{ $player['Player'] }}</td>
-                                <td>{{ $player['Similarity'] }}</td>
-                                <td>{{ $player['1'] }}</td>
-                                <td>{{ $player['11'] }}</td>
-                                <td>{{ $player['141'] }}</td>
-                                <td>{{ $player['3'] }}</td>
-                                <td>{{ $player['5'] }}</td>
-                                <td>{{ $player['6'] }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table> --}}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- Insert the canvas for the similarity chart here -->
-                            <canvas id="similarityChart"></canvas>
-                        </div>
-                    </div>
+                @isset($data)
+                <canvas id="similarityChart"></canvas>
+                @endisset
+            </div>
+        </div> <!-- End of the row -->
 
-                    <div class="row mt-5">
+        <!-- New row for the data -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                @isset($data)
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+{{--                             <th>Similarity</th>
+ --}}                            <th>Position</th>
+                            <th>Competition</th>
+                            <th>Age</th>
+                            <th>Completed Matches Played</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @foreach ($data as $player)
-                        <div class="col-md-4">
-                            <h5>{{ $player['Player'] }}</h5>
-                            <canvas id="playerChart{{ $loop->index }}" class="pie-chart"></canvas>
-                            <button type="button" class="btn btn-primary mt-2">Add to Shortlist</button>
-                        </div>
+                        <tr>
+                            <td>{{ $player['Player'] }}</td>
+{{--                             <td>{{ $player['Similarity'] }}</td>
+ --}}                            <td>{{ $player['Pos'] }}</td>
+                            <td>{{ $player['Comp'] }}</td>
+                            <td>{{ $player['Age'] }}</td>
+                            <td>{{ $player['90s'] }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">Add to Shortlist</button>
+                            </td>
+                        </tr>
                         @endforeach
-                    </div>
-                    @endisset
-                @endif
+                    </tbody>
+                </table>
+                @endisset
             </div>
         </div> <!-- End of the row -->
     </div>
@@ -161,25 +144,9 @@
                 }
             }
         });
-
-        // create the pie charts
-        data.forEach((player, i) => {
-            const ctx = document.getElementById(`playerChart${i}`).getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['1', '11', '141', '3'], // adjust the labels as per your data
-                    datasets: [{
-                        data: [player['1'], player['11'], player['141'], player['3']], // adjust the stats as per your data
-                        backgroundColor: ['red', 'blue', 'yellow', 'green'],
-                        borderColor: 'white',
-                        borderWidth: 1
-                    }]
-                }
-            });
-        });
         @endisset
     });
     </script>
+
 </body>
 </html>
