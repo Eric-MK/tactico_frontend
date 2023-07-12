@@ -256,7 +256,11 @@ public function deleteAccount(User $user)
 
         $userCredential = $request->only('email', 'password');
         $userData = User::where('email', $request->email)->first();
-        if ($userData && $userData->is_verified == 0) {
+
+        // Check if the user exists and if the account has been deleted
+        if ($userData && $userData->is_deleted == 1) {
+            return back()->with('error', 'Username & Password is incorrect');
+        } elseif ($userData && $userData->is_verified == 0) {
             //$this->sendOtp($userData, $request->email);
             return redirect("/verification/" . $userData->id);
         } elseif (Auth::attempt($userCredential)) {
