@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'is_deleted',
+        'is_verified',
     ];
 
     /**

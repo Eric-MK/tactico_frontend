@@ -153,59 +153,84 @@ class UserController extends Controller
 
 
     public function studentRegister(Request $request)
-    {
-        $request->validate([
-            'name' => 'string|required|min:2',
-            'email' => 'string|email|required|max:100|unique:users',
-            'password' => 'string|required|confirmed|min:6',
-            'country_code' => 'required',
-            'phone' => 'required',
-        ]);
+{
+    $request->validate([
+        'name' => 'string|required|min:2',
+        'email' => 'string|email|required|max:100',
+        'password' => 'string|required|confirmed|min:6',
+        'country_code' => 'required',
+        'phone' => 'required',
+    ]);
 
-        // Country code mapping
-        $countryCodeMapping = [
-            '+1' => 'US',
-            '+30' => 'GR',
-            '+254' => 'KE',
-            '+44' => 'GB',
-            '+27' => 'ZA',
-            '+966' => 'SA',
-        ];
+    // Country code mapping
+    $countryCodeMapping = [
+        '+1' => 'US',
+        '+30' => 'GR',
+        '+254' => 'KE',
+        '+44' => 'GB',
+        '+27' => 'ZA',
+        '+966' => 'SA',
+    ];
 
-        $phoneNumber = $request->country_code . $request->phone;
+    $phoneNumber = $request->country_code . $request->phone;
 
-        // Retrieve the ISO country code
-        $isoCountryCode = $countryCodeMapping[$request->country_code] ?? null;
+    // Retrieve the ISO country code
+    $isoCountryCode = $countryCodeMapping[$request->country_code] ?? null;
 
-        $phoneExists = User::where('phone', $phoneNumber)->exists();
+    // Check if phone number exists and belongs to a deleted user
+    $deletedUser = User::where(function ($query) use ($request, $phoneNumber) {
+        $query->where('phone', $phoneNumber)
+            ->orWhere('email', $request->email);
+    })->where('is_deleted', 1)->first();
 
-        if ($phoneExists) {
-            return back()->withErrors(['phone' => 'The phone number already exists.']);
+    if (!$deletedUser) {
+        // Check if the phone number or email is already used by a non-deleted user
+        $exists = User::where(function ($query) use ($request, $phoneNumber) {
+            $query->where('phone', $phoneNumber)
+                ->orWhere('email', $request->email);
+        })->where('is_deleted', 0)->exists();
+
+        if ($exists) {
+            return back()->withErrors(['phone' => 'The phone number or email already exists.']);
         }
+    }
 
-        $phoneUtil = PhoneNumberUtil::getInstance();
-        try {
-            $numberProto = $phoneUtil->parse($phoneNumber, $isoCountryCode);
-            if (!$phoneUtil->isValidNumber($numberProto)) {
-                // If the number is not valid, return with an error message
-                return back()->withErrors(['phone' => 'Phone number is not valid.']);
-            }
-        } catch (NumberParseException $e) {
-            // If the number could not be parsed, return with an error message
-            return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+    $phoneUtil = PhoneNumberUtil::getInstance();
+    try {
+        $numberProto = $phoneUtil->parse($phoneNumber, $isoCountryCode);
+        if (!$phoneUtil->isValidNumber($numberProto)) {
+            // If the number is not valid, return with an error message
+            return back()->withErrors(['phone' => 'Phone number is not valid.']);
         }
+    } catch (NumberParseException $e) {
+        // If the number could not be parsed, return with an error message
+        return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+    }
 
+    if ($deletedUser) {
+        // If the user was deleted, update their information and restore their account
+        $deletedUser->name = $request->name;
+        $deletedUser->email = $request->email;
+        $deletedUser->phone = $phoneNumber;
+        $deletedUser->password = Hash::make($request->password);
+        $deletedUser->is_deleted = 0; // Unmark the user as deleted
+        $deletedUser->save();
+        $userId = $deletedUser->id;
+    } else {
+        // If the user is new, create a new User instance
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-
-        // Append the country code to the phone number
-        $user->phone = $request->country_code . $request->phone;
+        $user->phone = $phoneNumber;
         $user->password = Hash::make($request->password);
         $user->save();
-
-        return redirect("/verification/" . $user->id);
+        $userId = $user->id;
     }
+
+    return redirect("/verification/" . $userId);
+}
+
+
 
     public function loadLogin()
     {
@@ -218,6 +243,8 @@ class UserController extends Controller
 public function deleteAccount(User $user)
 {
     $user->update(['is_deleted' => 1]);
+    $user->update(['is_verified' => 0]);
+
     // Log the user out
     Auth::logout();
 
