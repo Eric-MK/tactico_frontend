@@ -44,7 +44,7 @@
     </div>
 @endif
                 <div class="card-body">
-                    <form method="POST" action="/profile">
+                    <form id="updateProfileForm" method="POST" action="/profile">
                         @csrf
 
                         <div class="form-group row">
@@ -93,9 +93,17 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Update Profile') }}
                                 </button>
+
                             </div>
                         </div>
                     </form>
+
+<form method="POST" id="deleteAccountForm" action="{{ route('deleteAccount', ['user' => Auth::user()->id]) }}" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+    @csrf
+    <button type="submit" class="btn btn-danger">
+        {{ __('Delete Account') }}
+    </button>
+</form> <!-- end of the delete account form -->
                 </div>
             </div>
         </div>
@@ -107,7 +115,7 @@
 
 
 <script>
-  document.querySelector('form').addEventListener('submit', function(e) {
+  document.querySelector('#updateProfileForm').addEventListener('submit', function(e) {
  // Get the phone number
  var phone = document.querySelector('#phone').value;
 

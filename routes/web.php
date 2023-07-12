@@ -24,6 +24,7 @@ Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
 Route::get('/', [UserController::class, 'loadLandigPage']);
 Route::post('/login', [UserController::class, 'userLogin'])->name('userLogin');
 Route::get('/verification/{id}', [UserController::class, 'verification']);
+Route::post('deleteAccount/{user}', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 Route::get('/pro',[UserController::class, 'loadProfile']);
 Route::get('/profile', [UserController::class, 'showProfile']);
 Route::post('/profile', [UserController::class, 'updateProfile']);

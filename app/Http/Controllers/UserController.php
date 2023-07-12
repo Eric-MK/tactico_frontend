@@ -215,6 +215,14 @@ class UserController extends Controller
         return view('login');
     }
 
+public function deleteAccount(User $user)
+{
+    $user->update(['is_deleted' => 1]);
+    // Log the user out
+    Auth::logout();
+
+    return redirect()->route('login')->with('message', 'Account successfully deleted');
+}
     public function sendOtp($user, $email)
     {
         $otp = rand(100000, 999999);
