@@ -47,7 +47,7 @@
 
         .login-container input[type="submit"] {
             padding: 10px 20px;
-            background-color: #724caf;
+            background-color: #0d6efd;
             color: white;
             border: none;
             border-radius: 4px;
