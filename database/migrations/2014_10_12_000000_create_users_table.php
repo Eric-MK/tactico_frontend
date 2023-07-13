@@ -20,10 +20,14 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique(); // Add phone number column
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('is_verified')->default(0);
+            $table->boolean('is_deleted')->default(0); // Add is_deleted column
             $table->string('password');
+            $table->string('role')->default('user'); // Add role column with 'user' as default value
             $table->rememberToken();
             $table->timestamps();
         });
+
+
 
     }
 

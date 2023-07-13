@@ -24,6 +24,28 @@ class UserController extends Controller
         return view('register');
     }
 
+    public function loadProfile()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        return view('frontend.profile');
+    }
+
+    public function loadingshortlist()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        return view('frontend.ShortlistPage');
+    }
+     public function loadLandigPage()
+    {
+        return view('frontend.LandingPage');
+    }
+
     public function showResetForm($token)
     {
         return view('reset_password_form', ['token' => $token]);
@@ -72,6 +94,62 @@ class UserController extends Controller
 
     }
 
+    public function showProfile()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        $user = Auth::user();
+        return view('profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+{
+    if (!Auth::check()) {
+        return redirect('/login');
+    }
+
+    $user = Auth::user();
+
+    $request->validate([
+        'name' => 'string|nullable|min:2',
+        'email' => 'string|email|nullable|max:100|unique:users,email,'.$user->id,
+        'phone' => 'nullable',
+        'password' => 'nullable|confirmed|min:6',
+    ], [
+        'email.unique' => 'The email entered is already taken by another user.',
+    ]);
+
+    if ($request->name) {
+        $user->name = $request->name;
+    }
+
+    if ($request->email && $request->email != $user->email) {
+        $user->email = $request->email;
+        $user->is_verified = 0;  // Set is_verified to 0
+        $user->save();
+        Auth::logout(); // logout the user
+
+        return redirect('/login');
+    }
+
+    if ($request->phone) {
+        $user->phone = $request->phone;
+    }
+
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+
+
+    return redirect('/pro')->with('success', 'Profile updated successfully.');
+}
+
+
 
 
     public function logout()
@@ -83,59 +161,84 @@ class UserController extends Controller
 
 
     public function studentRegister(Request $request)
-    {
-        $request->validate([
-            'name' => 'string|required|min:2',
-            'email' => 'string|email|required|max:100|unique:users',
-            'password' => 'string|required|confirmed|min:6',
-            'country_code' => 'required',
-            'phone' => 'required',
-        ]);
+{
+    $request->validate([
+        'name' => 'string|required|min:2',
+        'email' => 'string|email|required|max:100',
+        'password' => 'string|required|confirmed|min:6',
+        'country_code' => 'required',
+        'phone' => 'required',
+    ]);
 
-        // Country code mapping
-        $countryCodeMapping = [
-            '+1' => 'US',
-            '+30' => 'GR',
-            '+254' => 'KE',
-            '+44' => 'GB',
-            '+27' => 'ZA',
-            '+966' => 'SA',
-        ];
+    // Country code mapping
+    $countryCodeMapping = [
+        '+1' => 'US',
+        '+30' => 'GR',
+        '+254' => 'KE',
+        '+44' => 'GB',
+        '+27' => 'ZA',
+        '+966' => 'SA',
+    ];
 
-        $phoneNumber = $request->country_code . $request->phone;
+    $phoneNumber = $request->country_code . $request->phone;
 
-        // Retrieve the ISO country code
-        $isoCountryCode = $countryCodeMapping[$request->country_code] ?? null;
+    // Retrieve the ISO country code
+    $isoCountryCode = $countryCodeMapping[$request->country_code] ?? null;
 
-        $phoneExists = User::where('phone', $phoneNumber)->exists();
+    // Check if phone number exists and belongs to a deleted user
+    $deletedUser = User::where(function ($query) use ($request, $phoneNumber) {
+        $query->where('phone', $phoneNumber)
+            ->orWhere('email', $request->email);
+    })->where('is_deleted', 1)->first();
 
-        if ($phoneExists) {
-            return back()->withErrors(['phone' => 'The phone number already exists.']);
+    if (!$deletedUser) {
+        // Check if the phone number or email is already used by a non-deleted user
+        $exists = User::where(function ($query) use ($request, $phoneNumber) {
+            $query->where('phone', $phoneNumber)
+                ->orWhere('email', $request->email);
+        })->where('is_deleted', 0)->exists();
+
+        if ($exists) {
+            return back()->withErrors(['phone' => 'The phone number or email already exists.']);
         }
+    }
 
-        $phoneUtil = PhoneNumberUtil::getInstance();
-        try {
-            $numberProto = $phoneUtil->parse($phoneNumber, $isoCountryCode);
-            if (!$phoneUtil->isValidNumber($numberProto)) {
-                // If the number is not valid, return with an error message
-                return back()->withErrors(['phone' => 'Phone number is not valid.']);
-            }
-        } catch (NumberParseException $e) {
-            // If the number could not be parsed, return with an error message
-            return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+    $phoneUtil = PhoneNumberUtil::getInstance();
+    try {
+        $numberProto = $phoneUtil->parse($phoneNumber, $isoCountryCode);
+        if (!$phoneUtil->isValidNumber($numberProto)) {
+            // If the number is not valid, return with an error message
+            return back()->withErrors(['phone' => 'Phone number is not valid.']);
         }
+    } catch (NumberParseException $e) {
+        // If the number could not be parsed, return with an error message
+        return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+    }
 
+    if ($deletedUser) {
+        // If the user was deleted, update their information and restore their account
+        $deletedUser->name = $request->name;
+        $deletedUser->email = $request->email;
+        $deletedUser->phone = $phoneNumber;
+        $deletedUser->password = Hash::make($request->password);
+        $deletedUser->is_deleted = 0; // Unmark the user as deleted
+        $deletedUser->save();
+        $userId = $deletedUser->id;
+    } else {
+        // If the user is new, create a new User instance
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-
-        // Append the country code to the phone number
-        $user->phone = $request->country_code . $request->phone;
+        $user->phone = $phoneNumber;
         $user->password = Hash::make($request->password);
         $user->save();
-
-        return redirect("/verification/" . $user->id);
+        $userId = $user->id;
     }
+
+    return redirect("/verification/" . $userId);
+}
+
+
 
     public function loadLogin()
     {
@@ -145,6 +248,16 @@ class UserController extends Controller
         return view('login');
     }
 
+public function deleteAccount(User $user)
+{
+    $user->update(['is_deleted' => 1]);
+    $user->update(['is_verified' => 0]);
+
+    // Log the user out
+    Auth::logout();
+
+    return redirect()->route('login')->with('message', 'Account successfully deleted');
+}
     public function sendOtp($user, $email)
     {
         $otp = rand(100000, 999999);
@@ -178,15 +291,23 @@ class UserController extends Controller
 
         $userCredential = $request->only('email', 'password');
         $userData = User::where('email', $request->email)->first();
-        if ($userData && $userData->is_verified == 0) {
+
+        // Check if the user exists and if the account has been deleted
+        if ($userData && $userData->is_deleted == 1) {
+            return back()->with('error', 'Username & Password is incorrect');
+        } elseif ($userData && $userData->is_verified == 0) {
             //$this->sendOtp($userData, $request->email);
             return redirect("/verification/" . $userData->id);
         } elseif (Auth::attempt($userCredential)) {
-            return redirect('/dashboard');
+            if ($userData->role === 'admin') {
+                return redirect('verified-accounts'); // redirect to admin page
+            }
+            return redirect('/dashboard'); // redirect to user page
         } else {
             return back()->with('error', 'Username & Password is incorrect');
         }
     }
+
 
     public function loadDashboard()
     {
@@ -277,4 +398,10 @@ class UserController extends Controller
 
         return back()->with('success', 'Password reset link has been sent to your email.');
     }
+
+    /* public function loadadmin()
+    {
+        return view('Admin.admin');
+    }
+ */
 }

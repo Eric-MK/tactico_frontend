@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Reset Password</title>
+    <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"

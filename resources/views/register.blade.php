@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Register</title>
+    <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
@@ -54,7 +56,7 @@
 
         input[type="submit"] {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color:#0d6efd;
             color: white;
             border: none;
             cursor: pointer;
@@ -63,7 +65,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #4689ee;
         }
 
         p {

@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'is_deleted',
+        'is_verified',
+        'role',
     ];
 
     /**
@@ -42,4 +45,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+   public function shortlists()
+{
+    return $this->hasMany('App\Shortlist');
+}
+
 }
