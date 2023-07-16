@@ -24,6 +24,19 @@ class UserController extends Controller
         return view('register');
     }
 
+    public function loadAbout()
+    {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('logout');
+        }
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        return view('frontend.AboutPage');
+    }
+
     public function loadProfile()
     {
         if (Auth::check() && Auth::user()->role === 'admin') {

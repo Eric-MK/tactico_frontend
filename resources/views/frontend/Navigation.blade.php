@@ -79,7 +79,7 @@
                     <a class="nav-link {{ request()->is('shortlisted-players') ? 'active' : '' }}" href="{{ url('shortlisted-players', Auth::user()->id) }}">Shortlist</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="#">About Us</a>
+                    <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="/about">About Us</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('pro') ? 'active' : '' }}" href="/pro">Profile</a>

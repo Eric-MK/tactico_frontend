@@ -32,6 +32,8 @@ Route::delete('shortlist/{id}', [ShortlistController::class, 'destroy'])->name('
 
 /* Route::get('/shortlist', [UserController::class, 'loadingshortlist'])->name('shortlist');
  */
+Route::get('/about', [UserController::class, 'loadAbout'])->name('about');
+
 Route::post('shortlist', [ShortlistController::class, 'store'])->name('shortlist.store');
 Route::get('shortlisted-players/{userId}', [ShortlistController::class, 'index']);
 
