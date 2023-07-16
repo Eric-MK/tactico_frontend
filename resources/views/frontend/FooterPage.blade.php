@@ -40,13 +40,13 @@
                             <a class="nav-link" href="/dashboard">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Shortlist</a>
+                            <a class="nav-link" href="shortlisted-players/{userId}">Shortlist</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
+                            <a class="nav-link" href="/pro">Profile</a>
                         </li>
                     </ul>
                 </div>
