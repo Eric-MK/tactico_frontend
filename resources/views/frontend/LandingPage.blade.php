@@ -14,7 +14,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <h1>Welcome to Tactico!</h1>
-                <p>Tactico is your premier scouting recommender system for football. Discover promising talents, track performance, and make informed decisions.</p>
+                <p>Tactico is your premier scouting recommender system for football. Discover promising talents, Similar players to your Recommended Player, and make informed decisions.</p>
                 <a href="/login" class="btn btn-primary">Log In</a>
                 <a href="/register" class="btn btn-secondary">Register</a>
             </div>

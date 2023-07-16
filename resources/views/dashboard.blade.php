@@ -51,7 +51,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="query" class="form-label">Player Name:</label>
-                        <input type="text" class="form-control" id="query" name="query" placeholder="Firstname Secondname (Team)">
+                        <input type="text" class="form-control" id="query" name="query" placeholder="Firstname Secondname(Team)">
                     </div>
                     <div class="mb-3">
                         <label for="count" class="form-label">Count:</label>
