@@ -44,6 +44,12 @@
         @endif
 
         <h1>Shortlisted Players</h1>
+
+        @if ($shortlistedPlayers->isEmpty())
+        <div class="alert alert-info">
+            No shortlisted players.
+        </div>
+        @else
         <table class="table">
             <thead>
                 <tr>
@@ -74,6 +80,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
 
     @include('frontend.FooterPage')
