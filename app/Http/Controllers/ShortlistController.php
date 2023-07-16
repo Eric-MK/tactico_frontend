@@ -10,6 +10,10 @@ class ShortlistController extends Controller
 {
     public function index() {
 
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('logout');
+        }
         if (!Auth::check()) {
             return redirect('/login');
         }
@@ -23,6 +27,12 @@ class ShortlistController extends Controller
 
     public function store(Request $request)
     {
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('logout');
+        }
+        
         if (!Auth::check()) {
             return redirect('/login');
         }
@@ -45,7 +55,7 @@ class ShortlistController extends Controller
         if (!Auth::check()) {
             return redirect('/login');
         }
-        
+
         // Get the player from the shortlist
         $player = Shortlist::find($id);
 
