@@ -26,10 +26,14 @@ class UserController extends Controller
 
     public function loadProfile()
     {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('admin.verified-accounts');
+        }
         if (!Auth::check()) {
             return redirect('/login');
         }
-
+        
         return view('frontend.profile');
     }
 
@@ -96,6 +100,12 @@ class UserController extends Controller
 
     public function showProfile()
     {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('admin.verified-accounts');
+        }
+
+        // The code below will be executed for authenticated users with the role 'user'
         if (!Auth::check()) {
             return redirect('/login');
         }
@@ -103,6 +113,7 @@ class UserController extends Controller
         $user = Auth::user();
         return view('profile', compact('user'));
     }
+
 
     public function updateProfile(Request $request)
 {
