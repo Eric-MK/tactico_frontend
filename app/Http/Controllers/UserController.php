@@ -33,7 +33,7 @@ class UserController extends Controller
         if (!Auth::check()) {
             return redirect('/login');
         }
-        
+
         return view('frontend.profile');
     }
 
@@ -322,10 +322,15 @@ public function deleteAccount(User $user)
 
     public function loadDashboard()
     {
-        if (Auth::check()) {
-            return view('dashboard');
+         if (Auth::check() && Auth::user()->role === 'admin') {
+            // Redirect admin users or display an error message
+            return redirect()->route('admin.verified-accounts');
         }
-        return redirect('/');
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        return view('dashboard');
     }
     public function forgotPassword()
     {
