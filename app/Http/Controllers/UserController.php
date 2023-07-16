@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         if (Auth::check() && Auth::user()->role === 'admin') {
             // Redirect admin users or display an error message
-            return redirect()->route('admin.verified-accounts');
+            return redirect()->route('logout');
         }
         if (!Auth::check()) {
             return redirect('/login');
@@ -102,7 +102,7 @@ class UserController extends Controller
     {
         if (Auth::check() && Auth::user()->role === 'admin') {
             // Redirect admin users or display an error message
-            return redirect()->route('admin.verified-accounts');
+            return redirect()->route('logout');
         }
 
         // The code below will be executed for authenticated users with the role 'user'
@@ -324,7 +324,7 @@ public function deleteAccount(User $user)
     {
          if (Auth::check() && Auth::user()->role === 'admin') {
             // Redirect admin users or display an error message
-            return redirect()->route('admin.verified-accounts');
+            return redirect()->route('logout');
         }
         if (!Auth::check()) {
             return redirect('/');
