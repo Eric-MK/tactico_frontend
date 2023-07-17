@@ -37,7 +37,7 @@ Route::get('/about', [UserController::class, 'loadAbout'])->name('about');
 Route::post('shortlist', [ShortlistController::class, 'store'])->name('shortlist.store');
 Route::get('shortlisted-players/{userId}', [ShortlistController::class, 'index']);
 
-Route::post('deleteAccount/{user}', [UserController::class, 'deleteAccount'])->name('deleteAccount');
+Route::delete('deleteAccount/{user}', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 Route::get('/pro',[UserController::class, 'loadProfile']);
 Route::get('/profile', [UserController::class, 'showProfile']);
 Route::post('/profile', [UserController::class, 'updateProfile']);
