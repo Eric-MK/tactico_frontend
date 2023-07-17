@@ -77,7 +77,7 @@
                     <td>{{ $shortlistedPlayer->age }}</td>
                     <td>{{ $shortlistedPlayer->player_type }}</td>
                     <td>
-                        <form action="{{ route('shortlist.destroy', $shortlistedPlayer->id) }}" method="POST">
+                        <form action="{{ route('shortlist.destroy', $shortlistedPlayer->id) }}" method="POST" onsubmit="event.preventDefault(); removeShortlistedPlayer(this);">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Remove</button>
@@ -94,6 +94,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     <script>
+           function removeShortlistedPlayer(form) {
+        swal({
+            title: "Are you sure?",
+            text: "Once removed, you will not be able to recover this player!",
+            icon: "warning",
+            buttons: ["Cancel", "Remove"],
+            dangerMode: true,
+        }).then((confirmed) => {
+            if (confirmed) {
+                form.submit(); // Submit the form if user confirms
+            }
+        });
+    }
         function sortShortlistedPlayers(playerType) {
             var shortlistedPlayers = document.getElementsByClassName('shortlisted-player');
 
