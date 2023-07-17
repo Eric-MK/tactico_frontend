@@ -125,10 +125,10 @@ var originalPhone = '{{ Auth::user()->phone }}';
 
 // Check if the phone number has changed
 if (phone !== originalPhone) {
-    // If changed, check if it's a Kenyan number (9 or 10 digits, starts with '07' or '7', or starts with '+254')
-    var kenyanPhoneRegex = /^(?:\+254|0)?[17]\d{8}$/;
+    // If changed, check if it's a valid Kenyan phone number in the format +254xxxxxxxxx
+    var kenyanPhoneRegex = /^\+254\d{9}$/;
     if (!kenyanPhoneRegex.test(phone)) {
-        swal("Error", "Invalid Kenyan phone number. Please enter a valid number.", "error");
+        swal("Error", "Invalid Kenyan phone number. Please enter a valid number starting with '+254' followed by 9 digits.", "error");
         e.preventDefault();
         return;
     }
@@ -160,7 +160,7 @@ if (phone !== originalPhone) {
     // Message to display when email changes
     var message = 'Are you sure you want to submit your data?';
     if (originalEmail !== newEmail) {
-        message += ' If you change your email, you will be logged out.';
+        message += ' If you change your email, you will be logged out for email verification.';
     }
 
     // Confirm submission
