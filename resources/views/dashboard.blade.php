@@ -60,7 +60,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="count" class="form-label">Count:</label>
-                        <input type="text" class="form-control" id="count" name="count">
+                        <input type="text" class="form-control" id="count" name="count" placeholder="number of players for similarity">
                     </div>
                     <div class="mb-3">
 {{--                         <label for="comparison" class="form-label">Comparison:</label>
