@@ -190,18 +190,13 @@ class UserController extends Controller
         'name' => 'string|required|min:2',
         'email' => 'string|email|required|max:100',
         'password' => 'string|required|confirmed|min:6',
-        'country_code' => 'required',
-        'phone' => 'required',
+/*         'country_code' => 'null|required',
+ */        'phone' => 'required',
     ]);
 
     // Country code mapping
     $countryCodeMapping = [
-        '+1' => 'US',
-        '+30' => 'GR',
         '+254' => 'KE',
-        '+44' => 'GB',
-        '+27' => 'ZA',
-        '+966' => 'SA',
     ];
 
     $phoneNumber = $request->country_code . $request->phone;
@@ -236,7 +231,7 @@ class UserController extends Controller
         }
     } catch (NumberParseException $e) {
         // If the number could not be parsed, return with an error message
-        return back()->withErrors(['phone' => 'Phone number could not be parsed.']);
+        return back()->withErrors(['phone' => 'Phone number could not be parsed should start with +254.']);
     }
 
     if ($deletedUser) {
