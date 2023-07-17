@@ -44,6 +44,8 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Actions</th>
+
                     <!-- Add additional columns if needed -->
                 </tr>
             </thead>
@@ -54,8 +56,9 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
-                            <form action="{{ route('admin.delete', $user->id) }}" method="POST">
+                            <form action="{{ url('/admin/delete', $user->id) }}" method="POST" onsubmit="event.preventDefault(); confirmDeleteAccount({{ $user->id }});">
                                 @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
@@ -68,5 +71,21 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmDeleteAccount(userId) {
+            swal({
+                title: "Are you sure?",
+                text: "Once Deleted, the user will be Deleted from the system",
+                icon: "warning",
+                buttons: ["Cancel", "Delete"],
+                dangerMode: true,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    // Proceed with form submission
+                    document.querySelector(`form[onsubmit="event.preventDefault(); confirmDeleteAccount(${userId});"]`).submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
