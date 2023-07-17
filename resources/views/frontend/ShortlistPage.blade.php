@@ -44,7 +44,14 @@
         @endif
 
         <h1>Shortlisted Players</h1>
-
+        <div class="mb-3">
+            <label for="player_type_sort" class="form-label">Sort by Player Type:</label>
+            <select class="form-control" id="player_type_sort" name="player_type_sort" onchange="sortShortlistedPlayers(this.value)">
+                <option value="">All</option>
+                <option value="Goalkeepers">Goalkeepers</option>
+                <option value="Outfield players">Outfield players</option>
+            </select>
+        </div>
         @if ($shortlistedPlayers->isEmpty())
         <div class="alert alert-info">
             No shortlisted players.
@@ -63,13 +70,13 @@
             </thead>
             <tbody>
                 @foreach ($shortlistedPlayers as $shortlistedPlayer)
-                <tr>
+                <tr class="shortlisted-player" data-player-type="{{ $shortlistedPlayer->player_type }}">
                     <td>{{ $shortlistedPlayer->player_name }}</td>
                     <td>{{ $shortlistedPlayer->position }}</td>
                     <td>{{ $shortlistedPlayer->competition }}</td>
                     <td>{{ $shortlistedPlayer->age }}</td>
                     <td>{{ $shortlistedPlayer->player_type }}</td>
-                    <td> <!-- Added delete form -->
+                    <td>
                         <form action="{{ route('shortlist.destroy', $shortlistedPlayer->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -85,5 +92,22 @@
 
     @include('frontend.FooterPage')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <script>
+        function sortShortlistedPlayers(playerType) {
+            var shortlistedPlayers = document.getElementsByClassName('shortlisted-player');
+
+            for (var i = 0; i < shortlistedPlayers.length; i++) {
+                var player = shortlistedPlayers[i];
+
+                if (playerType === '' || player.getAttribute('data-player-type') === playerType) {
+                    player.style.display = 'table-row';
+                } else {
+                    player.style.display = 'none';
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>
