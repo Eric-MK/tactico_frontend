@@ -54,7 +54,7 @@ Route::get('verified-accounts', [AdminController::class, 'viewVerifiedAccounts']
 
 Route::get('nonverified-accounts', [AdminController::class, 'viewNonVerifiedAccounts'])->name('admin.nonverified-accounts')->middleware('admin');
 Route::get('deleted-accounts', [AdminController::class, 'viewDeletedAccounts'])->name('admin.deleted-accounts')->middleware('admin');
-Route::post('/admin/unverify/{id}', [AdminController::class,'unverify'])->name('admin.unverify')->middleware('admin');
+Route::delete('/admin/unverify/{id}', [AdminController::class,'unverify'])->name('admin.unverify')->middleware('admin');
 Route::post('/admin/verify/{id}', [AdminController::class,'verify'])->name('admin.verify')->middleware('admin');
 Route::post('/admin/delete/{id}', [AdminController::class,'delete'])->name('admin.delete')->middleware('admin');
 

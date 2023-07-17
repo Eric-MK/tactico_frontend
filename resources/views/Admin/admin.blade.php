@@ -54,10 +54,12 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
-                            <form action="{{ route('admin.unverify', $user->id) }}" method="POST">
+                            <form action="{{ url('/admin/unverify', $user->id) }}" method="POST" onsubmit="event.preventDefault(); confirmUnverifyAccount({{ $user->id }});">
                                 @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Unverify</button>
                             </form>
+
                         </td>
                         <!-- Add additional columns if needed -->
                     </tr>
@@ -68,5 +70,21 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmUnverifyAccount(userId) {
+            swal({
+                title: "Are you sure?",
+                text: "Once unverified, the user will lose their verified status!",
+                icon: "warning",
+                buttons: ["Cancel", "Unverify"],
+                dangerMode: true,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    // Proceed with form submission
+                    document.querySelector(`form[onsubmit="event.preventDefault(); confirmUnverifyAccount(${userId});"]`).submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
