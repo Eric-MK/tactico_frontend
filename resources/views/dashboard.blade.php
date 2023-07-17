@@ -38,7 +38,7 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6">
-                <br><br><br>
+                <br>
                 <img src="statistics.jpg" alt="Your Image" class="img-fluid" style="border-radius: 9px">
             </div>
             <div class="col-md-6">
@@ -63,8 +63,8 @@
                         <input type="text" class="form-control" id="count" name="count">
                     </div>
                     <div class="mb-3">
-                        <label for="comparison" class="form-label">Comparison:</label>
-                        <input type="text" class="form-control" id="comparison" name="comparison"
+{{--                         <label for="comparison" class="form-label">Comparison:</label>
+ --}}                        <input type="hidden" type="text" class="form-control" id="comparison" name="comparison"
                             value="All positions" readonly>
                     </div>
                     <div class="mb-3">
