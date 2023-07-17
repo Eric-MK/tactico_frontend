@@ -42,7 +42,7 @@
                 <img src="statistics.jpg" alt="Your Image" class="img-fluid" style="border-radius: 9px">
             </div>
             <div class="col-md-6">
-                <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}">
+                <form method="POST" action="{{ action('App\Http\Controllers\PlayerRecommendationController@index') }}" onsubmit="setPlayerType()">
                     @csrf
                     <div class="mb-3">
                         <label for="player_type" class="form-label">Player Type:</label>
@@ -51,6 +51,8 @@
                             <option>Goalkeepers</option>
                         </select>
                     </div>
+                    <input type="hidden" id="hidden_player_type" name="hidden_player_type">
+
                     <div class="mb-3">
                         <label for="query" class="form-label">Player Name:</label>
                         <input type="text" class="form-control" id="query" name="query"
@@ -76,7 +78,7 @@
                             <option>Ligue 1</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" onclick="setPlayerType()">Submit</button>
                 </form>
 
             </div>
@@ -114,26 +116,29 @@
                             <th>Competition</th>
                             <th>Age</th>
                             <th>Completed Matches Played</th>
+                            <th>Player Type</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($data as $player)
-                        <tr>
-                            <td>{{ $player['Player'] }}</td>
-                            <td>{{ $player['Pos'] }}</td>
-                            <td>{{ $player['Comp'] }}</td>
-                            <td>{{ $player['Age'] }}</td>
-                            <td>{{ $player['90s'] }}</td>
-                            <td>
-                                <form action="{{ route('shortlist.store') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="player_name" value="{{ $player['Player'] }}">
-                                    <input type="hidden" name="position" value="{{ $player['Pos'] }}">
-                                    <input type="hidden" name="competition" value="{{ $player['Comp'] }}">
-                                    <input type="hidden" name="age" value="{{ $player['Age'] }}">
-                                    <button type="submit" class="btn btn-primary">Add to Shortlist</button>
-                                </form>
+                <tr>
+                    <td>{{ $player['Player'] }}</td>
+                    <td>{{ $player['Pos'] }}</td>
+                    <td>{{ $player['Comp'] }}</td>
+                    <td>{{ $player['Age'] }}</td>
+                    <td>{{ $player['90s'] }}</td>
+                    <td>{{ $player_type }}</td>
+                    <td>
+                        <form action="{{ route('shortlist.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="player_name" value="{{ $player['Player'] }}">
+                            <input type="hidden" name="position" value="{{ $player['Pos'] }}">
+                            <input type="hidden" name="competition" value="{{ $player['Comp'] }}">
+                            <input type="hidden" name="age" value="{{ $player['Age'] }}">
+                            <input type="hidden" name="player_type" value="{{ $player_type }}">
+                            <button type="submit" class="btn btn-primary">Add to Shortlist</button>
+                        </form>
                             </td>
                         </tr>
                         @endforeach
@@ -152,6 +157,13 @@
 
     <!-- Add the script to create the chart -->
     <script>
+
+function setPlayerType() {
+    var playerType = document.getElementById('player_type').value;
+    document.getElementById('hidden_player_type').value = playerType;
+}
+
+
         document.addEventListener('DOMContentLoaded', function () {
             @isset($data)
             const data = @json($data);
@@ -189,6 +201,8 @@
             });
             @endisset
         });
+
+
     </script>
 
 </body>

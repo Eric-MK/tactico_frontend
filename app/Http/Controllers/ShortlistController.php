@@ -27,28 +27,29 @@ class ShortlistController extends Controller
 
     public function store(Request $request)
     {
-
         if (Auth::check() && Auth::user()->role === 'admin') {
             // Redirect admin users or display an error message
             return redirect()->route('logout');
         }
-        
+
         if (!Auth::check()) {
             return redirect('/login');
         }
 
-        $data = $request->only('player_name', 'position', 'competition', 'age', 'player_type');
+        $data = $request->only('player_name', 'position', 'competition', 'age');
+        $data['player_type'] = $request->input('player_type');
         $data['user_id'] = Auth::user()->id; // get the current user's id
 
         $shortlistedPlayer = Shortlist::firstOrCreate($data);
 
-        // If the model already exists in the database the wasRecentlyCreated property will be false.
+        // If the model already exists in the database, the wasRecentlyCreated property will be false.
         if ($shortlistedPlayer->wasRecentlyCreated) {
             return redirect()->route('dashboard')->with('success', 'Player has been added to your shortlist.'); // home should be a named route in your web.php
         } else {
             return redirect()->route('dashboard')->with('error', 'Player is already in your shortlist.'); // home should be a named route in your web.php
         }
     }
+
     public function destroy($id)
     {
 
