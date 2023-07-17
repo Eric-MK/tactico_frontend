@@ -73,7 +73,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="/dashboard">Home</a>
+                    <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="/dashboard">Home_Search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('shortlisted-players') ? 'active' : '' }}" href="{{ url('shortlisted-players', Auth::user()->id) }}">Shortlist</a>
