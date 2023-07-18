@@ -27,7 +27,7 @@ class UserController extends Controller
     public function loadAbout()
     {
         if (Auth::check() && Auth::user()->role === 'admin') {
-            // Redirect admin users or display an error message
+            // Redirect admin users
             return redirect()->route('logout');
         }
         if (!Auth::check()) {
@@ -69,47 +69,57 @@ class UserController extends Controller
     }
 
 
-    public function resetPassword(Request $request)
-    {
+   /**
+ * Reset the user's password based on the provided token and email.
+ *
+ */
+public function resetPassword(Request $request)
+{
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'token' => 'required',
+        'email' => 'required',
+        'password' => 'required|min:6|confirmed',
+    ]);
 
-
-        $validator = Validator::make($request->all(), [
-            'token' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $resetPassword = DB::table('password_resets')
-            ->where('email', $request->email)
-            ->where('token', $request->token)
-            ->first();
-
-        if (!$resetPassword) {
-            return back()->with('error', 'Invalid token or email.');
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return back()->with('error', 'Email not found.');
-        }
-
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        // Delete the password reset record
-        DB::table('password_resets')
-            ->where('email', $request->email)
-            ->where('token', $request->token)
-            ->delete();
-
-        return redirect()->route('login')->with('success', 'Password reset successful. You can now log in with your new password.');
-
+    // If validation fails, redirect back with validation errors
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
     }
+
+    // Find the password reset record in the database
+    $resetPassword = DB::table('password_resets')
+        ->where('email', $request->email)
+        ->where('token', $request->token)
+        ->first();
+
+    // If the password reset record does not exist, return back with an error message
+    if (!$resetPassword) {
+        return back()->with('error', 'Invalid token or email.');
+    }
+
+    // Find the user by email
+    $user = User::where('email', $request->email)->first();
+
+    // If the user does not exist, return back with an error message
+    if (!$user) {
+        return back()->with('error', 'Email not found.');
+    }
+
+    // Set the user's password to the new hashed password
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    // Delete the password reset record from the database
+    DB::table('password_resets')
+        ->where('email', $request->email)
+        ->where('token', $request->token)
+        ->delete();
+
+    // Redirect to the login page with a success message
+    return redirect()->route('login')->with('success', 'Password reset successful. You can now log in with your new password.');
+}
+
 
     public function showProfile()
     {
