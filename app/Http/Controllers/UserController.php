@@ -287,29 +287,39 @@ public function deleteAccount(User $user)
 
     return redirect()->route('login')->with('message', 'Account successfully deleted');
 }
-    public function sendOtp($user, $email)
-    {
-        $otp = rand(100000, 999999);
-        $time = time();
+/**
+ * Send an OTP (One-Time Password) to the user's email for verification.
+ *
+ */
+public function sendOtp($user, $email)
+{
+    // Generate a random OTP (One-Time Password)
+    $otp = rand(100000, 999999);
 
-        EmailVerification::updateOrCreate(
-            ['email' => $email],
-            [
-                'email' => $email,
-                'otp' => $otp,
-                'created_at' => $time
-            ]
-        );
+    // Get the current timestamp
+    $time = time();
 
-        $data['email'] = $email;
-        $data['title'] = 'Mail Verification';
-        $data['body'] = 'Your OTP is: ' . $otp;
+    // Update or create an EmailVerification record for the email
+    EmailVerification::updateOrCreate(
+        ['email' => $email],
+        [
+            'email' => $email,
+            'otp' => $otp,
+            'created_at' => $time
+        ]
+    );
 
-        Mail::send('mailVerification', ['data' => $data], function ($message) use ($data) {
-            $message->from('sender@example.com', 'Sender Name');
-            $message->to($data['email'])->subject($data['title']);
-        });
-    }
+    // Prepare the email data
+    $data['email'] = $email;
+    $data['title'] = 'Mail Verification Tactico';
+    $data['body'] = 'Your OTP is: ' . $otp;
+
+    // Send the email
+    Mail::send('mailVerification', ['data' => $data], function ($message) use ($data) {
+        $message->from('sender@example.com', 'Sender Name');
+        $message->to($data['email'])->subject($data['title']);
+    });
+}
 
     public function userLogin(Request $request)
     {
