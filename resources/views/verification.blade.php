@@ -259,33 +259,40 @@
 
         // Function for the timer
         function timer() {
-            var seconds = 30;
-            var minutes = 1;
+    // Initialize variables for seconds and minutes
+    var seconds = 30;
+    var minutes = 1;
 
-            var timer = setInterval(() => {
-                if(minutes < 0){
-                    $('.time').text('');
-                    clearInterval(timer);
-                }
-                else{
-                    let tempMinutes = minutes.toString().length > 1 ? minutes : '0' + minutes;
-                    let tempSeconds = seconds.toString().length > 1 ? seconds : '0' + seconds;
+    // Set up a timer interval that executes every 1000 milliseconds (1 second)
+    var timer = setInterval(() => {
+        // Check if minutes is less than 0, indicating the timer has reached zero
+        if (minutes < 0) {
+            // Clear the interval to stop the timer
+            $('.time').text('');
+            clearInterval(timer);
+        } else {
+            // Format the minutes and seconds with leading zeros if necessary
+            let tempMinutes = minutes.toString().length > 1 ? minutes : '0' + minutes;
+            let tempSeconds = seconds.toString().length > 1 ? seconds : '0' + seconds;
 
-                    $('.time').text(tempMinutes + ':' + tempSeconds);
-                }
-
-                if(seconds <= 0){
-                    minutes--;
-                    seconds = 59;
-                }
-
-                seconds--;
-
-            }, 1000);
+            // Update the text content of elements with the class .time to display the formatted time
+            $('.time').text(tempMinutes + ':' + tempSeconds);
         }
 
-        // Start the timer
-        timer();
+        // Check if seconds is less than or equal to 0, indicating one minute has passed
+        if (seconds <= 0) {
+            // Decrement the minutes by 1 and reset the seconds to 59 for the next minute
+            minutes--;
+            seconds = 59;
+        }
+
+        // Decrement the seconds by 1 for the current minute
+        seconds--;
+    }, 1000);
+}
+
+// Start the timer by calling the timer function
+timer();
     </script>
 </body>
 </html>
