@@ -45,6 +45,6 @@ class PlayerRecommendationController extends Controller
             return view('dashboard', ['error' => 'API error: ' . $data['error']]);
         }
 
-        return view('dashboard', ['data' => $data]);
+        return view('dashboard', compact('data', 'player_type'));
     }
 }

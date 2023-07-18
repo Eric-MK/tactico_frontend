@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Forgot Password</title>
+    <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+
     <style>
         body {
             font-family: Arial, sans-serif;

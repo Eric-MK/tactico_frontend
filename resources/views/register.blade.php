@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Register</title>
+    <link rel="icon" href="{{ asset('scout.png') }}" type="image/x-icon">
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
@@ -54,7 +56,7 @@
 
         input[type="submit"] {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color:#0d6efd;
             color: white;
             border: none;
             cursor: pointer;
@@ -63,7 +65,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #4689ee;
         }
 
         p {
@@ -85,15 +87,6 @@
 
         .login-link a:hover {
             text-decoration: ;
-        }
-
-        /* Flag select styles */
-        .flag-select select {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
         }
 
         .flag-select .flag-icon {
@@ -162,25 +155,9 @@
         .phone-input {
             position: relative;
             display: flex; /* Use flex layout */
-            width: 300px;
             margin-bottom: 10px;
         }
 
-        .phone-input input[type="text"] {
-            width: calc(100% - 100px); /* Reduce width based on the size of the dropdown */
-            padding-left: 100px; /* Add padding to the left */
-        }
-
-        .phone-input .country-code-dropdown {
-            position: absolute;
-            left: 0;
-            border: none;
-            border-radius: 0;
-            height: 100%;
-            background: transparent;
-            width: 100px; /* Adjust based on your preference */
-            z-index: 1; /* Ensure the dropdown is on top */
-        }
 
         .password-toggle {
             display: flex;
@@ -213,17 +190,7 @@
         <input type="email" name="email" placeholder="Enter Email" required>
         <br><br>
         <div class="phone-input">
-            <input type="text" name="phone" placeholder="Enter Phone Number" required>
-            <select name="country_code" id="country_code" class="country-code-dropdown" required>
-                <option value="" selected disabled>Country Code</option>
-                <option value="+1">US (+1)</option>
-                <option value="+30">GR (+30)</option>
-                <option value="+254">KE (+254)</option> <!-- Kenya -->
-                <option value="+44">GB (+44)</option> <!-- Britain -->
-                <option value="+1">CA (+1)</option> <!-- Canada -->
-                <option value="+27">ZA (+27)</option> <!-- South Africa -->
-                <option value="+966">SA (+966)</option> <!-- Saudi Arabia -->
-            </select>
+            <input type="text" name="phone" placeholder="Enter Phone Number +254*********" required>
         </div>
         <br>
         <div class="password-toggle">
