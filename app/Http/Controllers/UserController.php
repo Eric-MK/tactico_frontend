@@ -335,7 +335,6 @@ public function sendOtp($user, $email)
         if ($userData && $userData->is_deleted == 1) {
             return back()->with('error', 'Username & Password is incorrect');
         } elseif ($userData && $userData->is_verified == 0) {
-            //$this->sendOtp($userData, $request->email);
             return redirect("/verification/" . $userData->id);
         } elseif (Auth::attempt($userCredential)) {
             if ($userData->role === 'admin') {
@@ -367,18 +366,29 @@ public function sendOtp($user, $email)
 
 
 
-    public function verification($id)
-    {
-        $user = User::where('id', $id)->first();
-        if (!$user || $user->is_verified == 1) {
-            return redirect('/');
-        }
-        $email = $user->email;
+   /**
+ * Handle the user verification process.
+ *
+ */
+public function verification($id)
+{
+    // Retrieve the user with the given ID
+    $user = User::where('id', $id)->first();
 
-        $this->sendOtp($user, $email); //OTP SEND
-
-        return view('verification', compact('email'));
+    // If the user doesn't exist or is already verified, redirect to the homepage
+    if (!$user || $user->is_verified == 1) {
+        return redirect('/');
     }
+
+    // Get the user's email
+    $email = $user->email;
+
+    // Send an OTP (One-Time Password) to the user's email
+    $this->sendOtp($user, $email);
+
+    // Return the verification view with the email
+    return view('verification', compact('email'));
+}
 
     public function verifiedOtp(Request $request)
     {
